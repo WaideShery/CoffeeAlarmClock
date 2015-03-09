@@ -12,10 +12,9 @@
         android:id="@+id/topLayout"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_top"/>
+        android:layout_centerHorizontal="true"/>
 
     <com.neirx.app.coffeealarmclock.CustomDigitalClock
         android:id="@+id/dgClock"
@@ -148,12 +147,12 @@
         android:layout_marginBottom="5dp"/>
 
 
-
+<!--
     <LinearLayout
         android:id="@+id/bottomLayout"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bg_bottom"/>
@@ -164,5 +163,5 @@
         android:background="@color/beige"
         android:layout_above="@id/bottomLayout"
         android:layout_marginTop="1dp"/>
-
+-->
 </RelativeLayout>

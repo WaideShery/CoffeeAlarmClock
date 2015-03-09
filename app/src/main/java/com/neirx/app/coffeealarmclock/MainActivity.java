@@ -1,19 +1,47 @@
 package com.neirx.app.coffeealarmclock;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.Calendar;
 
 
 public class MainActivity extends Activity {
+    private static final String TAG = "ThisApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View view = findViewById(R.id.topLayout);
+        BitmapDrawable bd = (BitmapDrawable) getResources().getDrawable(R.drawable.bg_tb);
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int width = displaymetrics.widthPixels;
+        int intrinsicHeight = bd.getIntrinsicHeight();
+
+        Rect bounds = new Rect(0,0,width, intrinsicHeight);
+        bd.setTileModeX(Shader.TileMode.REPEAT);
+        bd.setBounds(bounds);
+        Bitmap bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), bd.getBitmap().getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        bd.draw(canvas);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+        view.setBackground(bitmapDrawable);
+
         CustomDigitalClock dc = (CustomDigitalClock) findViewById(R.id.dgClock);
 
         Calendar calendar = Calendar.getInstance();
