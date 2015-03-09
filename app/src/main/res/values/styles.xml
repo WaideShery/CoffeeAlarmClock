@@ -2,20 +2,23 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">#1d0b04</item>
+        <item name="android:windowBackground">@color/app_bg</item>
         <item name="android:textColor">#e5d4ac</item>
     </style>
 
-    <style name="BorderText">
+    <style name="BeigeText">
         <item name="android:textColor">#e5d4ac</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">2</item>
-        <item name="android:shadowDy">2</item>
-        <item name="android:shadowRadius">2</item>
         <item name="android:singleLine">true</item>
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="DarkText">
+        <item name="android:textColor">#1d0b04</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
     <color name="beige">#e5d4ac</color>
+    <color name="pale_beige">#ab9e87</color>
+    <color name="app_bg">#1d0b04</color>
 
 </resources>
