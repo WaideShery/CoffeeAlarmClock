@@ -1,7 +1,10 @@
 package com.neirx.app.coffeealarmclock;
 
+import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -9,26 +12,29 @@ import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import java.util.Calendar;
+import android.support.v4.view.ViewPager;
+import android.view.Window;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     private static final String TAG = "ThisApp";
+
+    private TabBarView tabBarView;
+    SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_main_pager);
+        /*********** Фон свехру и снизу****************
         View viewTop = findViewById(R.id.topLayout);
         View viewBottom = findViewById(R.id.bottomLayout);
         BitmapDrawable bdTop = (BitmapDrawable) getResources().getDrawable(R.drawable.bg_tb);
@@ -50,49 +56,36 @@ public class MainActivity extends Activity {
         Bitmap bMapRotate = Bitmap.createBitmap(bitmapTop, 0, 0,
                 bitmapTop.getWidth(), bitmapTop.getHeight(), mat, true);
         viewBottom.setBackground(new BitmapDrawable(bMapRotate));
+         */
 
-        CustomDigitalClock dc = (CustomDigitalClock) findViewById(R.id.dgClock);
+        LayoutInflater inflator =
+                (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Calendar calendar = Calendar.getInstance();
-        int today = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (today) {
-            case Calendar.MONDAY:
-                findViewById(R.id.tvMon).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.TUESDAY:
-                findViewById(R.id.tvTue).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.WEDNESDAY:
-                findViewById(R.id.tvWed).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.THURSDAY:
-                findViewById(R.id.tvThu).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.FRIDAY:
-                findViewById(R.id.tvFri).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.SATURDAY:
-                findViewById(R.id.tvSat).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.SUNDAY:
-                findViewById(R.id.tvSun).setBackgroundResource(R.drawable.line);
-                break;
-            default:
-                break;
-        }
+        View v = inflator.inflate(R.layout.custom_ab, null);
+        tabBarView = (TabBarView) v.findViewById(R.id.tab_bar);
 
-        LinearLayout btnGraphic = (LinearLayout) findViewById(R.id.btn_graphic);
-        btnGraphic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GraphicActivity.class));
-            }
-        });
+        getSupportActionBar().setCustomView(v);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        // Создание адаптера, который будет возвращать фрагмент для каждоц из
+        // основных секций/разделов активити.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+
+        // Настраивает ViewPager адаптером секций/разделов.
+
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        tabBarView.setViewPager(mViewPager);
+
+
+
     }
 
-
+    //**********Меню************
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -104,12 +97,50 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+    //*******************************
+
+
+    /**
+     * Наследуется от {Android.support.v13.app.FragmentPagerAdapter}. Возвращает фрагмент,
+     * соответствующий одному из разделов/вкладок/страниц.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter implements TabBarView.IconTabProvider {
+
+        private int[] tab_icons={R.drawable.menu_alarm_on,
+                R.drawable.menu_graph_on,
+        };
+
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem вызывается для получения экземпляра фрагмента для данной страницы.
+            // Возвращает PlaceholderFragment (определен как статический внутренний класс ниже).
+            if(position == 0) {
+                return AlarmTimeFragment.newInstance();
+            } else {
+                return GraphicFragment.newInstance();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            // Показывает общее количество страниц.
+            return tab_icons.length;
+        }
+
+        @Override
+        public int getPageIconResId(int position) {
+            return tab_icons[position];
+        }
+
     }
 }

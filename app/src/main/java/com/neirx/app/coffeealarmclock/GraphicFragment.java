@@ -7,20 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AlarmsFragment extends Fragment{
+public class GraphicFragment extends Fragment {
 
-    public static AlarmsFragment newInstance() {
-        AlarmsFragment fragment = new AlarmsFragment();
+    public static GraphicFragment newInstance() {
+        GraphicFragment fragment = new GraphicFragment();
         return fragment;
     }
 
-    public AlarmsFragment() {}
+    public GraphicFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_alarms, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_graphic, container, false);
 
         return rootView;
     }
