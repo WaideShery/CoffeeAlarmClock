@@ -10,24 +10,21 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.Calendar;
 
-
-public class MainActivity extends Activity {
-    private static final String TAG = "ThisApp";
-
+/**
+ * Created by Вадим on 10.03.2015.
+ */
+public class GraphicActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_graphic);
 
         View viewTop = findViewById(R.id.topLayout);
         View viewBottom = findViewById(R.id.bottomLayout);
@@ -51,41 +48,11 @@ public class MainActivity extends Activity {
                 bitmapTop.getWidth(), bitmapTop.getHeight(), mat, true);
         viewBottom.setBackground(new BitmapDrawable(bMapRotate));
 
-        CustomDigitalClock dc = (CustomDigitalClock) findViewById(R.id.dgClock);
-
-        Calendar calendar = Calendar.getInstance();
-        int today = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (today) {
-            case Calendar.MONDAY:
-                findViewById(R.id.tvMon).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.TUESDAY:
-                findViewById(R.id.tvTue).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.WEDNESDAY:
-                findViewById(R.id.tvWed).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.THURSDAY:
-                findViewById(R.id.tvThu).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.FRIDAY:
-                findViewById(R.id.tvFri).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.SATURDAY:
-                findViewById(R.id.tvSat).setBackgroundResource(R.drawable.line);
-                break;
-            case Calendar.SUNDAY:
-                findViewById(R.id.tvSun).setBackgroundResource(R.drawable.line);
-                break;
-            default:
-                break;
-        }
-
-        LinearLayout btnGraphic = (LinearLayout) findViewById(R.id.btn_graphic);
+        LinearLayout btnGraphic = (LinearLayout) findViewById(R.id.btn_alarms);
         btnGraphic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GraphicActivity.class));
+                onBackPressed();
             }
         });
     }
@@ -112,4 +79,5 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
