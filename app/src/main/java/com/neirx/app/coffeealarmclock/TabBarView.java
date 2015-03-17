@@ -62,7 +62,7 @@ public class TabBarView extends LinearLayout {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		// Draw the strip manually
+		// Рисование полоски вручную
 		child = getChildAt(mSelectedTab);
 		int height = getHeight();
 		if (child != null) {

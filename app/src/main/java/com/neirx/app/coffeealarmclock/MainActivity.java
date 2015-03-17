@@ -23,7 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Window;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
     private static final String TAG = "ThisApp";
 
     private TabBarView tabBarView;
@@ -34,9 +34,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_pager);
-        /*********** Фон свехру и снизу****************
-        View viewTop = findViewById(R.id.topLayout);
-        View viewBottom = findViewById(R.id.bottomLayout);
+
+        //View viewTop = findViewById(R.id.topLayout);
+        //View viewBottom = findViewById(R.id.bottomLayout);
         BitmapDrawable bdTop = (BitmapDrawable) getResources().getDrawable(R.drawable.bg_tb);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -49,14 +49,14 @@ public class MainActivity extends ActionBarActivity {
         Bitmap bitmapTop = Bitmap.createBitmap(bounds.width(), bounds.height(), bdTop.getBitmap().getConfig());
         Canvas canvasTop = new Canvas(bitmapTop);
         bdTop.draw(canvasTop);
-        viewTop.setBackground(new BitmapDrawable(bitmapTop));
+        //viewTop.setBackground(new BitmapDrawable(bitmapTop));
 
         Matrix mat = new Matrix();
         mat.postRotate(180);
         Bitmap bMapRotate = Bitmap.createBitmap(bitmapTop, 0, 0,
                 bitmapTop.getWidth(), bitmapTop.getHeight(), mat, true);
-        viewBottom.setBackground(new BitmapDrawable(bMapRotate));
-         */
+        //viewBottom.setBackground(new BitmapDrawable(bMapRotate));
+
 
         LayoutInflater inflator =
                 (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,8 +64,10 @@ public class MainActivity extends ActionBarActivity {
         View v = inflator.inflate(R.layout.custom_ab, null);
         tabBarView = (TabBarView) v.findViewById(R.id.tab_bar);
 
-        getSupportActionBar().setCustomView(v);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        final ActionBar actionBar = getActionBar();
+        actionBar.setCustomView(v);
+        actionBar.setBackgroundDrawable(new BitmapDrawable(bitmapTop));
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // Создание адаптера, который будет возвращать фрагмент для каждоц из
         // основных секций/разделов активити.

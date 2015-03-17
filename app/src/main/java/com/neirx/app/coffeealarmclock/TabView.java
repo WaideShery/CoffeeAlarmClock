@@ -31,7 +31,7 @@ public class TabView extends LinearLayout {
         context.getTheme().resolveAttribute(android.R.attr.actionBarTabTextStyle, outValue, true);
 
         int txtstyle = outValue.data;
-        
+
         int pad = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources()
 					.getDisplayMetrics());
 
@@ -41,11 +41,11 @@ public class TabView extends LinearLayout {
 
         mTextView = new TextView(context);
         mTextView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mTextView.setGravity(Gravity.CENTER);
+        mTextView.setGravity(Gravity.RIGHT);
         mTextView.setCompoundDrawablePadding(pad);
         mTextView.setTextAppearance(context, txtstyle);;
-        
-        
+
+
         this.addView(mImageView);
         this.addView(mTextView);
         this.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
