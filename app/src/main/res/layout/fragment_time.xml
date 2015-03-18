@@ -123,6 +123,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/nextAlarm"
         android:textStyle="italic"
+        android:paddingTop="4dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         style="@style/BeigeText"/>

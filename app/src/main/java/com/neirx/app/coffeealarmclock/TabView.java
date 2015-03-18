@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -41,9 +40,9 @@ public class TabView extends LinearLayout {
 
         mTextView = new TextView(context);
         mTextView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-        mTextView.setGravity(Gravity.RIGHT);
+        mTextView.setGravity(Gravity.CENTER);
         mTextView.setCompoundDrawablePadding(pad);
-        mTextView.setTextAppearance(context, txtstyle);;
+        mTextView.setTextAppearance(context, txtstyle);
 
 
         this.addView(mImageView);
@@ -57,10 +56,10 @@ public class TabView extends LinearLayout {
 
     public void setIcon(Drawable icon) {
         if (icon != null) {
-            mImageView.setVisibility(View.VISIBLE);
+            mImageView.setVisibility(VISIBLE);
             mImageView.setImageDrawable(icon);
         } else {
-            mImageView.setImageResource(View.GONE);
+            mImageView.setImageResource(GONE);
         }
     }
 
