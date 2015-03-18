@@ -13,14 +13,17 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.neirx.app.coffeealarmclock.fragments.AlarmTimeFragment;
+import com.neirx.app.coffeealarmclock.fragments.GraphicFragment;
 
 
 public class MainActivity extends Activity {
@@ -35,8 +38,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_pager);
 
-        //View viewTop = findViewById(R.id.topLayout);
-        //View viewBottom = findViewById(R.id.bottomLayout);
+        View viewTop = findViewById(R.id.top_bar);
+        View viewBottom = findViewById(R.id.bottom_bar);
         BitmapDrawable bdTop = (BitmapDrawable) getResources().getDrawable(R.drawable.bg_tb);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -49,13 +52,13 @@ public class MainActivity extends Activity {
         Bitmap bitmapTop = Bitmap.createBitmap(bounds.width(), bounds.height(), bdTop.getBitmap().getConfig());
         Canvas canvasTop = new Canvas(bitmapTop);
         bdTop.draw(canvasTop);
-        //viewTop.setBackground(new BitmapDrawable(bitmapTop));
+        viewTop.setBackground(new BitmapDrawable(bitmapTop));
 
         Matrix mat = new Matrix();
         mat.postRotate(180);
         Bitmap bMapRotate = Bitmap.createBitmap(bitmapTop, 0, 0,
                 bitmapTop.getWidth(), bitmapTop.getHeight(), mat, true);
-        //viewBottom.setBackground(new BitmapDrawable(bMapRotate));
+        viewBottom.setBackground(new BitmapDrawable(bMapRotate));
 
 
         LayoutInflater inflator =
@@ -63,11 +66,8 @@ public class MainActivity extends Activity {
 
         View v = inflator.inflate(R.layout.custom_ab, null);
         tabBarView = (TabBarView) v.findViewById(R.id.tab_bar);
+        ((LinearLayout)viewTop).addView(tabBarView);
 
-        final ActionBar actionBar = getActionBar();
-        actionBar.setCustomView(v);
-        actionBar.setBackgroundDrawable(new BitmapDrawable(bitmapTop));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // Создание адаптера, который будет возвращать фрагмент для каждоц из
         // основных секций/разделов активити.
@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         tabBarView.setViewPager(mViewPager);
+
 
 
 

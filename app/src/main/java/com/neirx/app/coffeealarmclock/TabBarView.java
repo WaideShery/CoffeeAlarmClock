@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 public class TabBarView extends LinearLayout {
