@@ -1,11 +1,10 @@
 package com.neirx.app.coffeealarmclock;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
@@ -14,29 +13,29 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.view.ViewPager;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.neirx.app.coffeealarmclock.fragments.AlarmTimeFragment;
 import com.neirx.app.coffeealarmclock.fragments.GraphicFragment;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ViewPager.OnPageChangeListener{
     private static final String TAG = "ThisApp";
 
-    private TabBarView tabBarView;
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    ImageView iconAlarm;
+    ImageView iconGraphic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_pager);
+        setContentView(R.layout.activity_main);
 
         View viewTop = findViewById(R.id.top_bar);
         View viewBottom = findViewById(R.id.bottom_bar);
@@ -61,13 +60,6 @@ public class MainActivity extends Activity {
         viewBottom.setBackground(new BitmapDrawable(bMapRotate));
 
 
-        LayoutInflater inflator =
-                (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View v = inflator.inflate(R.layout.custom_ab, null);
-        tabBarView = (TabBarView) v.findViewById(R.id.tab_bar);
-        ((LinearLayout)viewTop).addView(tabBarView);
-
 
         // Создание адаптера, который будет возвращать фрагмент для каждоц из
         // основных секций/разделов активити.
@@ -77,9 +69,10 @@ public class MainActivity extends Activity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOnPageChangeListener(this);
 
-        tabBarView.setViewPager(mViewPager);
-
+        iconAlarm = (ImageView) findViewById(R.id.icon_alarm);
+        iconGraphic = (ImageView) findViewById(R.id.icon_graphic);
 
 
 
@@ -105,6 +98,25 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if(position == 0){
+            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
+            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
+        } else if(position == 1){
+            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
+            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
     //*******************************
 
 
@@ -112,11 +124,8 @@ public class MainActivity extends Activity {
      * Наследуется от {Android.support.v13.app.FragmentPagerAdapter}. Возвращает фрагмент,
      * соответствующий одному из разделов/вкладок/страниц.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter implements TabBarView.IconTabProvider {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private int[] tab_icons={R.drawable.menu_alarm_on,
-                R.drawable.menu_graph_on,
-        };
 
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -126,7 +135,6 @@ public class MainActivity extends Activity {
         @Override
         public Fragment getItem(int position) {
             // getItem вызывается для получения экземпляра фрагмента для данной страницы.
-            // Возвращает PlaceholderFragment (определен как статический внутренний класс ниже).
             if(position == 0) {
                 return AlarmTimeFragment.newInstance();
             } else {
@@ -137,12 +145,7 @@ public class MainActivity extends Activity {
         @Override
         public int getCount() {
             // Показывает общее количество страниц.
-            return tab_icons.length;
-        }
-
-        @Override
-        public int getPageIconResId(int position) {
-            return tab_icons[position];
+            return 2;
         }
 
     }
