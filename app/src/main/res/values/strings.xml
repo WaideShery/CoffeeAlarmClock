@@ -11,4 +11,22 @@
     <string name="sun">ВС</string>
     <string name="nextAlarm">До будильника: </string>
     <string name="work">Работа</string>
+
+<!-- Настройки-->
+
+    <string name="title_notification">Уведомление</string>
+    <string name="summary_notification">Отображать уведоление о следующем будильнике в статус баре</string>
+    <string name="title_icon_notification">Иконка уведомления</string>
+    <string name="title_appearance">Внешний вид</string>
+    <string name="title_display_brightness">Яркость экрана будильника</string>
+    <string name="title_buttons_dimensions">Размеры кнопок Отложить и Отключить</string>
+    <string name="title_screen_orientation">Ориентация экрана</string>
+    <string name="title_alarm_template">Шаблон будильника</string>
+    <string name="title_regional_settings">Региональные настройки</string>
+    <string name="title_language">Язык</string>
+    <string name="title_time_format">Формат времени</string>
+    <string name="title_week_beginning">Начало недели</string>
+
+
+
 </resources>

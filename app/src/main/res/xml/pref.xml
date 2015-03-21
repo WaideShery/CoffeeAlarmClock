@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="chb_notification"
+        android:summary="@string/summary_notification"
+        android:title="@string/title_notification"/>
+    <ListPreference
+        android:key="list_icons_notif"
+        android:title="@string/title_icon_notification"
+        android:entries="@array/entry_icons_notification"
+        android:entryValues="@array/entry_val_icons_notification"/>
+    <PreferenceCategory android:title="@string/title_appearance">
+        <Preference
+            android:key="pref_display_bright"
+            android:title="@string/title_display_brightness"/>
+        <Preference
+            android:key="pref_btn_dimens"
+            android:title="@string/title_buttons_dimensions"/>
+        <ListPreference
+            android:key="list_screen_orientation"
+            android:title="@string/title_screen_orientation"
+            android:entries="@array/entry_screen_orientation"
+            android:entryValues="@array/entry_val_screen_orientation"/>
+    </PreferenceCategory>
+    <Preference
+        android:key="pref_alarm_temp"
+        android:title="@string/title_alarm_template"/>
+    <PreferenceCategory android:title="@string/title_regional_settings">
+        <ListPreference
+            android:key="list_language"
+            android:title="@string/title_language"
+            android:entries="@array/entry_language"
+            android:entryValues="@array/entry_val_language"/>
+        <ListPreference
+            android:key="list_time_format"
+            android:title="@string/title_time_format"
+            android:entries="@array/entry_time_format"
+            android:entryValues="@array/entry_val_time_format"/>
+        <ListPreference
+            android:key="list_week_begin"
+            android:title="@string/title_week_beginning"
+            android:entries="@array/entry_week_beginning"
+            android:entryValues="@array/entry_val_week_beginning"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

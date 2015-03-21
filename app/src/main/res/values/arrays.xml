@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entry_week_beginning">
+        <item>понедельник</item>
+        <item>воскресенье</item>
+    </string-array>
+    <string-array name="entry_val_week_beginning">
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="entry_time_format">
+        <item>24 часа</item>
+        <item>12 часов</item>
+    </string-array>
+    <string-array name="entry_val_time_format">
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="entry_language">
+        <item>системный</item>
+        <item>английский</item>
+        <item>украинский</item>
+    </string-array>
+    <string-array name="entry_val_language">
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="entry_screen_orientation">
+        <item>датчик</item>
+        <item>вертикальная</item>
+        <item>горизонтальная</item>
+    </string-array>
+    <string-array name="entry_val_screen_orientation">
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+    <string-array name="entry_icons_notification">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="entry_val_icons_notification">
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+
+</resources>

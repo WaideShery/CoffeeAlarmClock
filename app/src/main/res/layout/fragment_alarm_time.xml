@@ -10,14 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.neirx.app.coffeealarmclock.fragments.TimeFragment"
-        android:id="@+id/fragment"
-        tools:layout="@layout/fragment_time" />
+        android:id="@+id/fragment"/>
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.neirx.app.coffeealarmclock.fragments.AlarmsFragment"
-        android:id="@+id/fragment2"
-        tools:layout="@layout/fragment_alarms" />
+        android:id="@+id/fragment2"/>
 
 </LinearLayout>

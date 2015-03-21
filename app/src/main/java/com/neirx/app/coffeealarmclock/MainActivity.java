@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
@@ -13,24 +12,28 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.view.ViewPager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.neirx.app.coffeealarmclock.fragments.AlarmTimeFragment;
 import com.neirx.app.coffeealarmclock.fragments.GraphicFragment;
+import com.neirx.app.coffeealarmclock.fragments.PreferFragment;
 
 
-public class MainActivity extends Activity implements ViewPager.OnPageChangeListener{
+public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private static final String TAG = "ThisApp";
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
-    ImageView iconAlarm;
-    ImageView iconGraphic;
+    ImageView iconAlarm, iconGraphic, iconMenu;
+    FrameLayout menuFrame;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,29 +77,12 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         iconAlarm = (ImageView) findViewById(R.id.icon_alarm);
         iconGraphic = (ImageView) findViewById(R.id.icon_graphic);
 
+        iconMenu = (ImageView) findViewById(R.id.icon_menu);
+
+        menuFrame = (FrameLayout) findViewById(R.id.main_menu);
+        menuFrame.setOnClickListener(this);
 
 
-    }
-
-    //**********Меню************
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -105,11 +91,22 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageSelected(int position) {
+        float scale = this.getResources().getDisplayMetrics().density;
         if(position == 0){
+            iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
+            iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
             iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
+
+            iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
+            iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
         } else if(position == 1){
+            iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
+            iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
+
+            iconAlarm.getLayoutParams().height = (int) (35 * scale + 0.5f);
+            iconAlarm.getLayoutParams().width = (int) (35 * scale + 0.5f);
             iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
         }
     }
@@ -117,6 +114,38 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_menu:
+                showOverflowMenu(v);
+                break;
+        }
+    }
+
+    private void showOverflowMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.menu_main);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_settings:
+                        PreferencePagerAdapter prefPagerAdapter = new PreferencePagerAdapter(getFragmentManager());
+                        mViewPager.setAdapter(prefPagerAdapter);
+                        mViewPager.setOnPageChangeListener(null);
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+        popupMenu.show();
+    }
+
+
     //*******************************
 
 
@@ -134,6 +163,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
         @Override
         public Fragment getItem(int position) {
+            Log.d(TAG, "getItem");
             // getItem вызывается для получения экземпляра фрагмента для данной страницы.
             if(position == 0) {
                 return AlarmTimeFragment.newInstance();
@@ -146,6 +176,32 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         public int getCount() {
             // Показывает общее количество страниц.
             return 2;
+        }
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+    }
+
+    public class PreferencePagerAdapter extends FragmentPagerAdapter {
+
+
+
+        public PreferencePagerAdapter (FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem вызывается для получения экземпляра фрагмента для данной страницы.
+                return PreferFragment.newInstance();
+        }
+
+        @Override
+        public int getCount() {
+            // Показывает общее количество страниц.
+            return 1;
         }
 
     }
