@@ -1,0 +1,44 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/viewCenterLine"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/pale_beige" />
+
+    <ImageView
+        android:id="@+id/iconAlarm"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/viewCenterLine"
+        android:src="@drawable/menu_alarm_on" />
+
+    <ImageView
+        android:id="@+id/iconGraphic"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/viewCenterLine"
+        android:src="@drawable/menu_graph_off" />
+    <FrameLayout
+        android:id="@+id/frameMenu"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+        <ImageView
+            android:id="@+id/iconMenu"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/menu" />
+    </FrameLayout>
+</RelativeLayout>

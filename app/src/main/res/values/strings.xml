@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CoffeeAlarmClock</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <string name="mon">ПН</string>
     <string name="tue">ВТ</string>
     <string name="wed">СР</string>
@@ -26,7 +26,8 @@
     <string name="title_language">Язык</string>
     <string name="title_time_format">Формат времени</string>
     <string name="title_week_beginning">Начало недели</string>
-
+    <string name="preference">Назад</string>
+    <string name="back"><![CDATA[<]]></string>
 
 
 </resources>

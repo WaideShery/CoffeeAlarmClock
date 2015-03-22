@@ -1,72 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reLay"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/top_bar"
+    <FrameLayout
+        android:id="@+id/containerTop"
         android:layout_width="match_parent"
-        android:layout_height="42dp">
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-        <View
-            android:id="@+id/center_line"
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/pale_beige" />
+        <fragment
+            android:id="@+id/fragmentTop"
+            android:name="com.neirx.app.coffeealarmclock.fragments.TopFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_top" />
+    </FrameLayout>
 
-        <ImageView
-            android:id="@+id/icon_alarm"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/center_line"
-            android:src="@drawable/menu_alarm_on" />
-
-        <ImageView
-            android:id="@+id/icon_graphic"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/center_line"
-            android:src="@drawable/menu_graph_off" />
-        <FrameLayout
-            android:id="@+id/main_menu"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
-        <ImageView
-            android:id="@+id/icon_menu"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/menu" />
-        </FrameLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true">
-
-        <ImageView
-            android:id="@+id/icon_add_alarm"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp" />
-    </RelativeLayout>
-
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/pager"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        android:layout_below="@id/top_bar"
-        tools:context="com.neirx.app.coffeealarmclock.MainActivity" />
+        android:layout_below="@id/containerTop">
+
+        <fragment
+            android:id="@+id/fragmentReplace"
+            android:name="com.neirx.app.coffeealarmclock.fragments.ReplaceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_replace" />
+    </FrameLayout>
+
+
 </RelativeLayout>
