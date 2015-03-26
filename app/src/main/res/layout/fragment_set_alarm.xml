@@ -9,14 +9,58 @@
         android:id="@+id/settingAlarm"
         android:layout_margin="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/set_alarm_height_element"
+            android:background="@drawable/border_list">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="НАЗВАНИЕ: "
+                android:id="@+id/textView5"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:layout_toRightOf="@id/textView5"
+                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
-            android:text="06:30"
-            android:layout_margin="2dp"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal" />
+            android:background="@drawable/border_list">
+
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/timePicker" />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_list">
+
+            <view
+                android:layout_height="110dp"
+                android:layout_width="92dp"
+                class="com.neirx.app.coffeealarmclock.customs.timepicker.WheelView"
+                android:id="@+id/view"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -56,29 +100,7 @@
                 android:layout_centerHorizontal="true" />
             </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Название: "
-                android:id="@+id/textView5"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:layout_toRightOf="@id/textView5"
-                android:layout_centerVertical="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
