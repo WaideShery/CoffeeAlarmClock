@@ -4,4 +4,6 @@
     <color name="pale_beige">#ab9e87</color>
     <color name="app_bg">#1d0b04</color>
     <color name="middle_brown">#433530</color>
+    <color name="button_dialog_background">#ab9e87</color>
+    <color name="dialog_background">#33241e</color>
 </resources>

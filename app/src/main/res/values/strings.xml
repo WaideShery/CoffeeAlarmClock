@@ -28,6 +28,8 @@
     <string name="title_week_beginning">Начало недели</string>
     <string name="preference">Назад</string>
     <string name="back"><![CDATA[<]]></string>
+    <string name="yes">Ок</string>
+    <string name="no">Отмена</string>
 
 
 </resources>

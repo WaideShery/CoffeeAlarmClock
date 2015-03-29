@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ff211410</color><!-- #ffffffff -->
+    <color name="circle_background">#33241e</color><!-- #fff2f2f2 -->
+    <color name="line_background">#ab9e87</color><!-- #ffcccccc -->
+    <color name="done_text_color_normal">#ab9e87</color><!-- #ff333333 -->
+    <color name="done_text_color_disabled">#ffcccccc</color><!-- #ffcccccc -->
+    <color name="blue">#964227</color><!-- #ff33b5e5 -->
+    <color name="darker_blue">#78351f</color><!-- #ff0099cc -->
+    <color name="date_picker_text_normal">#ff999999</color><!-- #ff999999 -->
+    <color name="calendar_header">#ff999999</color><!-- #ff999999 -->
+    <color name="date_picker_view_animator">#fff2f2f2</color><!-- #fff2f2f2 -->
+
+    <color name="ampm_text_color">#ff9b8e78</color><!-- #8c8c8c -->
+    <color name="numbers_text_color">#ff9b8e78</color><!-- #8c8c8c -->
+
+    <color name="transparent_black">#7F000000</color><!-- #7F000000 -->
+</resources>
