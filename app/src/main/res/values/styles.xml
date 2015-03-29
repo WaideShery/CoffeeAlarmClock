@@ -8,12 +8,18 @@
         <item name="android:windowBackground">@color/app_bg</item>
         <item name="android:textColor">#e5d4ac</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:editTextBackground">@drawable/apptheme_textfield_activated_holo_light</item>
+        <item name="android:editTextPreferenceStyle">@style/EditTextPreference</item>
+
+    </style>
+
+    <style name="EditTextPreference">
+        <item name="android:editTextBackground">@drawable/apptheme_textfield_activated_holo_light</item>
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">#433530</item>
     </style>
-
 
     <style name="BeigeText">
         <item name="android:textColor">#e5d4ac</item>
@@ -27,5 +33,15 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="BackTitleShadow">
+        <item name="android:paddingLeft">4px</item>
+        <item name="android:paddingBottom">4px</item>
+        <item name="android:textColor">@color/beige</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:shadowColor">@color/red</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
 
 </resources>

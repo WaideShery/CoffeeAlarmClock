@@ -30,6 +30,14 @@
     <string name="back"><![CDATA[<]]></string>
     <string name="yes">Ок</string>
     <string name="no">Отмена</string>
+    <string name="alarm_label"><u>Заголовок</u></string>
+    <string name="alarm_time"><u>Время</u></string>
+    <string name="alarm_repeat"><u>Повтор</u></string>
+    <string name="alarm_type_signal"><u>Тип сигнала</u></string>
+    <string name="alarm_select_signal"><u>Выбрать</u></string>
+    <string name="alarm_vibrate"><u>Вибрация</u></string>
+    <string name="alarm_volume"><u>Громкость</u></string>
+    <string name="alarm_increase_volume"><u>Наростание громкости</u></string>
 
 
 </resources>

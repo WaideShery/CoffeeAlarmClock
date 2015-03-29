@@ -9,15 +9,19 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back" />
+            android:layout_height="20dp"
+            android:src="@drawable/back"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/preference" />
+            android:text="@string/preference"
+            style="@style/BackTitleShadow"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
 </RelativeLayout>

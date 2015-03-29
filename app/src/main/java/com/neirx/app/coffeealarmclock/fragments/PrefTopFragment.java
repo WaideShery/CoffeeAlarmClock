@@ -32,7 +32,7 @@ public class PrefTopFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_pref_top, container, false);
 
         View viewTop = rootView.findViewById(R.id.topBar);
-        BitmapDrawable bdTop = (BitmapDrawable) getResources().getDrawable(R.drawable.bg_tb);
+        BitmapDrawable bdTop = (BitmapDrawable) getResources().getDrawable(R.drawable.sett_bg);
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int width = displaymetrics.widthPixels;

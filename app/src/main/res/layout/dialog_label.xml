@@ -3,32 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <EditText
+    android:orientation="vertical"
+    android:background="@color/dark_dialog_background">
+    <TextView
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etLabel"
-        android:layout_gravity="center_horizontal"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
+        android:text="Название будильника"
+        android:textColor="@color/darker_red"
+        android:textSize="22sp"
+        android:background="@drawable/red_border_bottom"/>
+    <EditText
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:id="@+id/etInputLabel"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/apptheme_edit_text_holo_light"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp">
+        <View
+            android:id="@+id/viewCenterLine"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/dark_pale_beige" />
         <Button
-            android:id="@+id/btnCancel"
-            android:background="@color/button_dialog_background"
-            android:textColor="@color/beige"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Отмена"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@id/viewCenterLine"
+            android:background="@drawable/beige_border_top"
+            android:text="Отмена"
+            android:textColor="@color/pale_beige"
+            android:textSize="17sp"
+            android:layout_weight="1"
+            android:id="@+id/btnCancel"/>
         <Button
-            android:id="@+id/btnSave"
-            android:background="@color/button_dialog_background"
-            android:textColor="@color/beige"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Сохранить"/>
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/viewCenterLine"
+            android:background="@drawable/beige_border_top"
+            android:layout_weight="1"
+            android:text="Ок"
+            android:textColor="@color/pale_beige"
+            android:textSize="17sp"
+            android:id="@+id/btnOk"/>
+        </RelativeLayout>
 </LinearLayout>

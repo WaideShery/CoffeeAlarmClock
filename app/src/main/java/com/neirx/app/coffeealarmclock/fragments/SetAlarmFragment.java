@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.neirx.app.coffeealarmclock.R;
+import com.neirx.app.coffeealarmclock.dialogs.LabelDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
@@ -26,6 +29,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     RelativeLayout relTime;
     TimePickerDialog timePickerDialog;
     public static final String TIMEPICKER_TAG = "timepicker";
+    boolean is24Format;
 
     public static SetAlarmFragment newInstance() {
         SetAlarmFragment fragment = new SetAlarmFragment();
@@ -41,9 +45,9 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_set_alarm, container, false);
         final Calendar calendar = Calendar.getInstance();
-        boolean is24Format = false;
+        is24Format = false;
         if (DateFormat.is24HourFormat(getActivity())){
-            //is24Format = true;
+            is24Format = true;
         }
         timePickerDialog = TimePickerDialog.newInstance(
                 (TimePickerDialog.OnTimeSetListener) this,
@@ -67,68 +71,51 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rlLabel:
-                labelDialog();
-                //labelDialog.setTargetFragment(this, getTargetRequestCode());
-                //labelDialog.show(getFragmentManager(), "dlgLabel");
+                LabelDialog labelDialog = new LabelDialog();
+                labelDialog.setTargetFragment(this, getTargetRequestCode());
+                labelDialog.show(getFragmentManager(), "dlgLabel");
                 break;
             case R.id.relTime:
                 timePickerDialog.setVibrate(false);
                 timePickerDialog.setCloseOnSingleTapMinute(false);
+                timePickerDialog.setStartTime(14, 14);
                 timePickerDialog.show(getFragmentManager(), TIMEPICKER_TAG);
                 break;
         }
     }
 
-    private void labelDialog() {
-        new DialogFragment(){
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                final EditText etInput = new EditText(getActivity());
-                AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
-                        .setTitle("Название будильника")
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String newLabel = etInput.getText().toString();
-                                tvLabel.setText(newLabel);
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setView(etInput);
-                return adb.create();
-            }
-
-        }.show(getFragmentManager(), "dlgLabel");
-    }
-
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        String strMinute;
+        String strMinute, strHour;
+
         if(minute < 10){
             strMinute = "0"+minute;
         } else {
             strMinute = ""+minute;
         }
-        switch (view.getIsCurrentlyAmOrPm()){
-            case TimePickerDialog.AM:
-                tvTime.setText(hourOfDay+":"+strMinute + " am");
-                break;
-            case TimePickerDialog.PM:
-                tvTime.setText(hourOfDay+":"+strMinute + " pm");
-                break;
-            default:
-                tvTime.setText(hourOfDay+":"+strMinute);
-                break;
-        }
 
-        if(view.getIsCurrentlyAmOrPm() != -1){
-            tvTime.setText(hourOfDay+":"+minute);
-        } else{
-            tvTime.setText(hourOfDay+":"+minute);
+        if(is24Format){
+            if(hourOfDay < 10){
+                strHour = "0"+hourOfDay;
+            } else {
+                strHour = ""+hourOfDay;
+            }
+            tvTime.setText(strHour+":"+strMinute);
+        } else {
+            String meridiem;
+            if(hourOfDay < 12){
+                meridiem = " am";
+            } else {
+                meridiem = " pm";
+            }
+            if(hourOfDay > 12){
+                hourOfDay -= 12;
+            }
+            if(hourOfDay == 0){
+                hourOfDay = 12;
+            }
+            tvTime.setText(hourOfDay+":"+strMinute + meridiem);
         }
     }
 

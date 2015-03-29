@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView" >
+    android:id="@+id/scrollView"
+    android:background="@color/dark_dialog_background">
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,15 +19,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Заголовок"
+                android:textSize="16sp"
+                android:text="@string/alarm_label"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="20sp"
                 android:text="Пусто"
                 android:textColor="@color/pale_beige"
                 android:layout_centerVertical="true"
@@ -43,15 +44,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Время"
+                android:textSize="16sp"
+                android:text="@string/alarm_time"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="25sp"
                 android:text=""
                 android:textColor="@color/pale_beige"
                 android:layout_centerVertical="true"
@@ -68,8 +69,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Повтор"
+                android:textSize="16sp"
+                android:text="@string/alarm_repeat"
                 android:id="@+id/textView2"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
@@ -77,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20sp"
                 android:text="Сегодня"
                 android:textColor="@color/pale_beige"
                 android:id="@+id/tvRepeat"
@@ -85,19 +86,64 @@
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list">
-            <TextView
-                android:layout_width="wrap_content"
+            android:background="@drawable/border_list"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ToggleButton
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="ПН  ВТ  СР  ЧТ  ПТ  СБ  ВС"
-                android:id="@+id/textView4"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
+                android:textOff="ПН"
+                android:textOn="ПН"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togMonday" />
+
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="ВТ"
+                android:textOn="ВТ"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togTuesday" />
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="СР"
+                android:textOn="СР"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togWednesday" />
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="ЧТ"
+                android:textOn="ЧТ"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togThursday" />
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="ПТ"
+                android:textOn="ПТ"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togFriday" />
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="СБ"
+                android:textOn="СБ"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togSaturday" />
+            <ToggleButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textOff="ВС"
+                android:textOn="ВС"
+                android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                android:id="@+id/togSunday" />
+
+        </LinearLayout>
 
 
 
@@ -110,15 +156,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Тип сигнала"
+                android:textSize="16sp"
+                android:text="@string/alarm_type_signal"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20sp"
                 android:text="Музыка"
                 android:id="@+id/tvTone"
                 android:layout_centerVertical="true"
@@ -135,8 +181,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Выбрать"
+                android:textSize="16sp"
+                android:text="@string/alarm_select_signal"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
@@ -144,31 +190,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:layout_gravity="center_horizontal">
+            android:background="@drawable/border_list">
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Вибрация"
+                android:textSize="16sp"
+                android:text="@string/alarm_vibrate"
                 android:textColor="@color/beige"
                 android:id="@+id/switchVibrate"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:thumb="@drawable/apptheme_switch_inner_holo_dark"
+                android:track="@drawable/apptheme_switch_track_holo_dark"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:background="@drawable/border_list"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:layout_gravity="center_horizontal">
+            android:layout_height="@dimen/set_alarm_height_element">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Громкость"
+                android:textSize="16sp"
+                android:text="@string/alarm_volume"
                 android:id="@+id/textView9"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
@@ -177,10 +224,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/seekBar"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/textView9"
                 android:layout_centerVertical="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_dark"
+                android:thumb="@drawable/apptheme_scrubber_control_selector_holo_dark"/>
 
 
         </RelativeLayout>
@@ -188,18 +237,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:layout_gravity="center_horizontal">
+            android:background="@drawable/border_list">
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Наростание громкости"
+                android:textSize="16sp"
+                android:text="@string/alarm_increase_volume"
                 android:textColor="@color/beige"
                 android:id="@+id/switch2"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:thumb="@drawable/apptheme_switch_inner_holo_dark"
+                android:track="@drawable/apptheme_switch_track_holo_dark"/>
         </RelativeLayout>
 
     </LinearLayout>
