@@ -1,257 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView"
     android:background="@color/dark_dialog_background">
-    <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="0dp"
+        android:layout_alignParentBottom="true">
+        <View
+            android:id="@+id/viewCenterLine"
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@color/pale_beige" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_margin="0dp"
+            android:layout_toLeftOf="@id/viewCenterLine"
+            android:background="@drawable/apptheme_btn_default_holo_light"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_margin="0dp"
+            android:layout_toRightOf="@id/viewCenterLine"
+            android:background="@drawable/apptheme_btn_default_holo_light"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/settingAlarm"
-        android:layout_margin="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:id="@+id/rlLabel">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_label"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Пусто"
-                android:textColor="@color/pale_beige"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/tvLabel"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:id="@+id/relTime">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_time"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:text=""
-                android:textColor="@color/pale_beige"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/tvTime"/>
-        </RelativeLayout>
-
-         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:id="@+id/relRepeat">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_repeat"
-                android:id="@+id/textView2"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Сегодня"
-                android:textColor="@color/pale_beige"
-                android:id="@+id/tvRepeat"
-                android:layout_alignTop="@+id/textView2"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/bottomLayout"
+        >
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="ПН"
-                android:textOn="ПН"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togMonday" />
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/settingAlarm"
+            android:layout_margin="5dp">
 
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="ВТ"
-                android:textOn="ВТ"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togTuesday" />
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="СР"
-                android:textOn="СР"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togWednesday" />
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="ЧТ"
-                android:textOn="ЧТ"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togThursday" />
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="ПТ"
-                android:textOn="ПТ"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togFriday" />
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="СБ"
-                android:textOn="СБ"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togSaturday" />
-            <ToggleButton
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textOff="ВС"
-                android:textOn="ВС"
-                android:background="@drawable/apptheme_btn_toggle_holo_dark"
-                android:id="@+id/togSunday" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:id="@+id/rlLabel">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_label"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Пусто"
+                    android:textColor="@color/pale_beige"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/tvLabel"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:id="@+id/relTime">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_time"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"
+                    android:text=""
+                    android:textColor="@color/pale_beige"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/tvTime"/>
+            </RelativeLayout>
+
+             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:id="@+id/relRepeat">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_repeat"
+                    android:id="@+id/textView2"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Сегодня"
+                    android:textColor="@color/pale_beige"
+                    android:id="@+id/tvRepeat"
+                    android:layout_alignTop="@+id/textView2"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="ПН"
+                    android:textOn="ПН"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togMonday" />
+
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="ВТ"
+                    android:textOn="ВТ"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togTuesday" />
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="СР"
+                    android:textOn="СР"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togWednesday" />
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="ЧТ"
+                    android:textOn="ЧТ"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togThursday" />
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="ПТ"
+                    android:textOn="ПТ"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togFriday" />
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="СБ"
+                    android:textOn="СБ"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togSaturday" />
+                <ToggleButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:textOff="ВС"
+                    android:textOn="ВС"
+                    android:background="@drawable/apptheme_btn_toggle_holo_dark"
+                    android:id="@+id/togSunday" />
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_type_signal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Музыка"
+                    android:id="@+id/tvTone"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/tvSelect">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_select_signal"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list">
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_vibrate"
+                    android:textColor="@color/beige"
+                    android:id="@+id/switchVibrate"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:thumb="@drawable/apptheme_switch_inner_holo_dark"
+                    android:track="@drawable/apptheme_switch_track_holo_dark"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/border_list"
+                android:layout_height="@dimen/set_alarm_height_element">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_volume"
+                    android:id="@+id/textView9"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <SeekBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/textView9"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_dark"
+                    android:thumb="@drawable/apptheme_scrubber_control_selector_holo_dark"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/set_alarm_height_element"
+                android:background="@drawable/border_list">
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="@string/alarm_increase_volume"
+                    android:textColor="@color/beige"
+                    android:id="@+id/switch2"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:thumb="@drawable/apptheme_switch_inner_holo_dark"
+                    android:track="@drawable/apptheme_switch_track_holo_dark"/>
+            </RelativeLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_type_signal"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Музыка"
-                android:id="@+id/tvTone"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/tvSelect">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_select_signal"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list">
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_vibrate"
-                android:textColor="@color/beige"
-                android:id="@+id/switchVibrate"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_alignParentStart="true"
-                android:thumb="@drawable/apptheme_switch_inner_holo_dark"
-                android:track="@drawable/apptheme_switch_track_holo_dark"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@drawable/border_list"
-            android:layout_height="@dimen/set_alarm_height_element">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_volume"
-                android:id="@+id/textView9"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true" />
-
-            <SeekBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/seekBar"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/textView9"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:progressDrawable="@drawable/apptheme_scrubber_progress_horizontal_holo_dark"
-                android:thumb="@drawable/apptheme_scrubber_control_selector_holo_dark"/>
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/set_alarm_height_element"
-            android:background="@drawable/border_list">
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/alarm_increase_volume"
-                android:textColor="@color/beige"
-                android:id="@+id/switch2"
-                android:layout_centerInParent="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:thumb="@drawable/apptheme_switch_inner_holo_dark"
-                android:track="@drawable/apptheme_switch_track_holo_dark"/>
-        </RelativeLayout>
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>

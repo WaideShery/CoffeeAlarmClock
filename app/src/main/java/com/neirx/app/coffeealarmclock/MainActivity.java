@@ -18,7 +18,7 @@ import com.neirx.app.coffeealarmclock.fragments.PreferFragment;
 import com.neirx.app.coffeealarmclock.fragments.SetAlarmFragment;
 
 
-public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, View.OnClickListener{
+public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     public static final String TAG = "ThisApp";
 
     ImageView iconAlarm, iconGraphic, iconAddAlarm;
@@ -37,8 +37,8 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         topFragment = fragmentManager.findFragmentById(R.id.fragmentTop);
-        bottomFragment = fragmentManager.findFragmentById(R.id.fragmentBottom);
         replaceFragment = fragmentManager.findFragmentById(R.id.fragmentReplace);
+        bottomFragment = replaceFragment.getChildFragmentManager().findFragmentById(R.id.fragmentBottom);
 
 
         pager = (ViewPager) replaceFragment.getView().findViewById(R.id.pager);
@@ -53,8 +53,6 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         addAlarmFrame.setOnClickListener(this);
 
 
-
-
     }
 
     @Override
@@ -64,7 +62,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
     @Override
     public void onPageSelected(int position) {
         float scale = this.getResources().getDisplayMetrics().density;
-        if(position == 0){
+        if (position == 0) {
             iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
             iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
             iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
@@ -72,7 +70,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
             iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
             iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
-        } else if(position == 1){
+        } else if (position == 1) {
             iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
             iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
@@ -90,7 +88,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.frameMenu:
                 showOverflowMenu(v);
                 break;
@@ -115,7 +113,7 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.action_settings:
                         Fragment prefFragment = PreferFragment.newInstance();
                         Fragment prefTopFragment = PrefTopFragment.newInstance();

@@ -38,6 +38,8 @@
     <string name="alarm_vibrate"><u>Вибрация</u></string>
     <string name="alarm_volume"><u>Громкость</u></string>
     <string name="alarm_increase_volume"><u>Наростание громкости</u></string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
 
 
 </resources>
