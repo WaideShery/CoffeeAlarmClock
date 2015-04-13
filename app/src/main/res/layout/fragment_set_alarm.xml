@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Пусто"
+                    android:text=""
                     android:textColor="@color/pale_beige"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Сегодня"
+                    android:text=""
                     android:textColor="@color/pale_beige"
                     android:id="@+id/tvRepeat"
                     android:layout_alignTop="@+id/textView2"
@@ -184,6 +184,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/relSignal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/set_alarm_height_element"
                 android:background="@drawable/border_list"
@@ -201,8 +202,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="Музыка"
-                    android:id="@+id/tvTone"
+                    android:text="Стандартный"
+                    android:id="@+id/tvSignal"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
@@ -212,7 +213,7 @@
                 android:layout_height="@dimen/set_alarm_height_element"
                 android:background="@drawable/border_list"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/tvSelect">
+                android:id="@+id/relSelect">
 
                 <TextView
                     android:layout_width="wrap_content"

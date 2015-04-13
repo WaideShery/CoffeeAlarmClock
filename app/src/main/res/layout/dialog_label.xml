@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/etInputLabel"
         android:layout_gravity="center_horizontal"
+        android:textColor="@color/pale_beige"
         android:background="@drawable/apptheme_edit_text_holo_light"/>
     <RelativeLayout
         android:layout_width="match_parent"

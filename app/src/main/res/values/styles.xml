@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme.Base" parent="@android:style/Theme.Holo.Light.NoActionBar">
-    </style>
+        </style>
 
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:windowBackground">@color/app_bg</item>
@@ -10,7 +10,6 @@
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:editTextBackground">@drawable/apptheme_textfield_activated_holo_light</item>
         <item name="android:editTextPreferenceStyle">@style/EditTextPreference</item>
-
     </style>
 
     <style name="EditTextPreference">

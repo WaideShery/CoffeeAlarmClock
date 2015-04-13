@@ -1,38 +1,42 @@
 package com.neirx.app.coffeealarmclock.fragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
+
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.neirx.app.coffeealarmclock.R;
 import com.neirx.app.coffeealarmclock.dialogs.LabelDialog;
+import com.neirx.app.coffeealarmclock.dialogs.SignalDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
 
-public class SetAlarmFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener{
-    TextView tvLabel, tvTime;
-    RelativeLayout relTime;
+
+public class SetAlarmFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener,
+        LabelDialog.OnLabelSetListener, SignalDialog.OnSignalSetListener{
+    SignalDialog.Signals signal;
+    TextView tvLabel, tvTime, tvSignal, tvRepeat;
+    ToggleButton togMonday, togTuesday, togWednesday, togThursday, togFriday, togSaturday, togSunday;
+    RelativeLayout relTime, relSignal;
     TimePickerDialog timePickerDialog;
     public static final String TIMEPICKER_TAG = "timepicker";
+    public static final String LABELSET_TAG = "labelsetter";
+    public static final String SIGNALSET_TAG = "signalsetter";
     boolean is24Format;
 
     public static SetAlarmFragment newInstance() {
         SetAlarmFragment fragment = new SetAlarmFragment();
+        fragment.signal = SignalDialog.Signals.Standart;
         return fragment;
     }
 
@@ -59,11 +63,45 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
 
         tvLabel = (TextView) rootView.findViewById(R.id.tvLabel);
         tvTime = (TextView) rootView.findViewById(R.id.tvTime);
+        tvRepeat = (TextView) rootView.findViewById(R.id.tvRepeat);
 
         relTime = (RelativeLayout) rootView.findViewById(R.id.relTime);
         relTime.setOnClickListener(this);
+
+        relSignal = (RelativeLayout) rootView.findViewById(R.id.relSignal);
+        relSignal.setOnClickListener(this);
+        tvSignal = (TextView) rootView.findViewById(R.id.tvSignal);
+
+        togMonday = (ToggleButton) rootView.findViewById(R.id.togMonday);
+        togMonday.setOnClickListener(onToggleClick);
+        togThursday = (ToggleButton) rootView.findViewById(R.id.togThursday);
+        togThursday.setOnClickListener(onToggleClick);
+        togWednesday = (ToggleButton) rootView.findViewById(R.id.togWednesday);
+        togWednesday.setOnClickListener(onToggleClick);
+        togThursday = (ToggleButton) rootView.findViewById(R.id.togThursday);
+        togThursday.setOnClickListener(onToggleClick);
+        togFriday = (ToggleButton) rootView.findViewById(R.id.togFriday);
+        togFriday.setOnClickListener(onToggleClick);
+        togSaturday = (ToggleButton) rootView.findViewById(R.id.togSaturday);
+        togSaturday.setOnClickListener(onToggleClick);
+        togSunday = (ToggleButton) rootView.findViewById(R.id.togSunday);
+        togSunday.setOnClickListener(onToggleClick);
+
         return rootView;
     }
+
+    private View.OnClickListener onToggleClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(togMonday.isChecked() || togThursday.isChecked() || togWednesday.isChecked()
+                    || togThursday.isChecked() || togFriday.isChecked()
+                    || togSaturday.isChecked() || togSunday.isChecked()){
+                tvRepeat.setText("Дни недели");
+            } else{
+                tvRepeat.setText("");
+            }
+        }
+    };
 
 
 
@@ -71,15 +109,21 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rlLabel:
-                LabelDialog labelDialog = new LabelDialog();
-                labelDialog.setTargetFragment(this, getTargetRequestCode());
-                labelDialog.show(getFragmentManager(), "dlgLabel");
+                String curLabel = tvLabel.getText().toString();
+                LabelDialog labelDialog = LabelDialog.newInstance(this, curLabel);
+                labelDialog.show(getFragmentManager(), LABELSET_TAG);
                 break;
             case R.id.relTime:
                 timePickerDialog.setVibrate(false);
                 timePickerDialog.setCloseOnSingleTapMinute(false);
                 timePickerDialog.setStartTime(14, 14);
                 timePickerDialog.show(getFragmentManager(), TIMEPICKER_TAG);
+                break;
+            case R.id.relSignal:
+                SignalDialog signalDialog = SignalDialog.newInstance(this, signal);
+                signalDialog.show(getFragmentManager(), SIGNALSET_TAG);
+                break;
+            case R.id.relSelect:
                 break;
         }
     }
@@ -120,6 +164,14 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     }
 
 
+    @Override
+    public void onTimeSet(String Label) {
+        tvLabel.setText(Label);
+    }
 
-
+    @Override
+    public void onSignalSet(SignalDialog.Signals signal) {
+        this.signal = signal;
+        tvSignal.setText(signal.toString());
+    }
 }

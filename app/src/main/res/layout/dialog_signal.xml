@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_dialog_background"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
+    <TextView
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбор сигнала"
+        android:textColor="@color/darker_red"
+        android:textSize="22sp"
+        android:background="@drawable/red_border_bottom"/>
+    <RadioGroup
+        android:id="@+id/rgSignals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Музыка"
+            android:button="@drawable/apptheme_btn_radio_holo_light"
+            android:textColor="@color/pale_beige"
+            android:id="@+id/rbMusic"
+            android:layout_marginTop="20dp"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Стандартный сигнал"
+            android:button="@drawable/apptheme_btn_radio_holo_light"
+            android:textColor="@color/pale_beige"
+            android:id="@+id/rbStandart"
+            android:layout_marginTop="20dp"/>
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@id/viewCenterLine"
+            android:background="@drawable/beige_border_top"
+            android:text="Отмена"
+            android:textColor="@color/pale_beige"
+            android:textSize="17sp"
+            android:layout_weight="1"
+            android:id="@+id/btnCancel"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
