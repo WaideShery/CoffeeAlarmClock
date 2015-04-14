@@ -6,39 +6,17 @@ public class Alarm {
     int id;
     private boolean isOn;
     private String title;
-    private String wakeTime;// -
+    private int wakeHour;
+    private int wakeMinute;
     private String repeat;// -
     private String date;// -
     private String typeSignal;// -
     private String track;// -
     private boolean isVibration;
-    private String volume;// -
+    private int volume;
     private boolean isIncreaseVolume;
     private String startVolume;// -
 
-    public Alarm(int id, boolean isOn, String title, String wakeTime, String repeat, String date,
-                 String typeSignal, String track, boolean isVibration, String volume,
-                 boolean isIncreaseVolume, String startVolume) {
-        this.id = id;
-        this.isOn = isOn;
-        this.title = title;
-        this.wakeTime = wakeTime;
-        this.repeat = repeat;
-        this.date = date;
-        this.typeSignal = typeSignal;
-        this.track = track;
-        this.isVibration = isVibration;
-        this.volume = volume;
-        this.isIncreaseVolume = isIncreaseVolume;
-        this.startVolume = startVolume;
-    }
-
-    public Alarm(boolean isOn, String title, String wakeTime, String repeat, String date,
-                 String typeSignal, String track, boolean isVibration, String volume,
-                 boolean isIncreaseVolume, String startVolume) {
-        new Alarm(0, isOn, title, wakeTime, repeat, date, typeSignal, track, isVibration,
-                volume, isIncreaseVolume, startVolume);
-    }
     public Alarm(){
 
     }
@@ -84,13 +62,22 @@ public class Alarm {
         this.title = title;
     }
 
-    public String getWakeTime() {
-        return wakeTime;
+    public int getWakeHour() {
+        return wakeHour;
     }
 
-    public void setWakeTime(String wakeTime) {
-        this.wakeTime = wakeTime;
+    public int getWakeMinute() {
+        return wakeMinute;
     }
+
+    public void setWakeHour(int wakeHour) {
+        this.wakeHour =  wakeHour;
+    }
+
+    public void setWakeMinute(int wakeMinute) {
+        this.wakeMinute = wakeMinute;
+    }
+
 
     public String getRepeat() {
         return repeat;
@@ -124,11 +111,11 @@ public class Alarm {
         this.track = track;
     }
 
-    public String getVolume() {
+    public int getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 

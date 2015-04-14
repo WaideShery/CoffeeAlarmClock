@@ -62,7 +62,6 @@ public class ReplaceFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(MainActivity.TAG, "getItem");
             // getItem вызывается для получения экземпляра фрагмента для данной страницы.
             if(position == 0) {
                 return AlarmTimeFragment.newInstance();
