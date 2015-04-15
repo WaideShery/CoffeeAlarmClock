@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.neirx.app.coffeealarmclock.fragments.AlarmsFragment;
 import com.neirx.app.coffeealarmclock.fragments.PrefTopFragment;
 import com.neirx.app.coffeealarmclock.fragments.PreferFragment;
 import com.neirx.app.coffeealarmclock.fragments.SetAlarmFragment;
@@ -55,6 +56,29 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         addAlarmFrame.setOnClickListener(this);
 
 
+        getFragmentManager().addOnBackStackChangedListener(getListener());
+
+    }
+
+    private FragmentManager.OnBackStackChangedListener getListener()
+    {
+        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener()
+        {
+            public void onBackStackChanged()
+            {
+                FragmentManager manager = getFragmentManager();
+
+                if (manager != null) {
+                    AlarmsFragment currFrag = (AlarmsFragment) manager.findFragmentById(R.id.fragment_alarms);
+                    if (currFrag != null) {
+                        Log.d(MainActivity.TAG, "Fragment");
+                        currFrag.onFragmentResume();
+                    }
+                }
+            }
+        };
+
+        return result;
     }
 
     @Override
@@ -135,4 +159,6 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
         });
         popupMenu.show();
     }
+
+
 }

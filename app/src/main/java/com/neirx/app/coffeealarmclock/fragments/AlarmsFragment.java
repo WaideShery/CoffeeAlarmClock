@@ -29,15 +29,9 @@ public class AlarmsFragment extends Fragment{
         AlarmsFragment fragment = new AlarmsFragment();
         return fragment;
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(MainActivity.TAG, "Fragment1 onStart");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(MainActivity.TAG, "Fragment1 onResume");
+
+    public void onFragmentResume() {
+        Log.d(MainActivity.TAG, "Fragment1 onFragmentResume");
     }
 
     public AlarmsFragment() {}
