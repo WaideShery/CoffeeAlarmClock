@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.neirx.app.coffeealarmclock.Alarm;
+import com.neirx.app.coffeealarmclock.DBHelper;
 import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 import com.neirx.app.coffeealarmclock.dialogs.LabelDialog;
@@ -35,6 +36,7 @@ import java.util.Calendar;
 
 public class SetAlarmFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener,
         LabelDialog.OnLabelSetListener, SignalDialog.OnSignalSetListener{
+    SignalDialog signalDialog;
     SignalDialog.Signals signal;
     TextView tvLabel, tvTime, tvSignal, tvRepeat, tvSelect, tvPercent;
     ToggleButton togMonday, togTuesday, togWednesday, togThursday, togFriday, togSaturday, togSunday;
@@ -49,6 +51,9 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     Button btnSave, btnCancel;
     SeekBar seekBar;
     Switch switchVibrate, switchIncreaseVolume;
+    String ringtoneUri = "";
+    DBHelper dbHelper;
+    String repeatDays;
 
     public static SetAlarmFragment newInstance() {
         SetAlarmFragment fragment = new SetAlarmFragment();
@@ -137,28 +142,56 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
 
         switchVibrate = (Switch) rootView.findViewById(R.id.switchVibrate);
         switchIncreaseVolume = (Switch) rootView.findViewById(R.id.switchIncreaseVolume);
+
+        dbHelper = new DBHelper(getActivity());
         return rootView;
     }
 
     private View.OnClickListener onToggleClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(togMonday.isChecked() || togThursday.isChecked() || togWednesday.isChecked()
+            if(togMonday.isChecked() || togTuesday.isChecked() || togWednesday.isChecked()
                     || togThursday.isChecked() || togFriday.isChecked()
                     || togSaturday.isChecked() || togSunday.isChecked()){
                 tvRepeat.setText("Дни недели");
+                repeatDays = setRepeatDays();
             } else if(!tvTime.getText().toString().isEmpty()){
                 Calendar c = Calendar.getInstance();
                 int curHours = c.get(Calendar.HOUR_OF_DAY);
                 int curMinutes = c.get(Calendar.MINUTE);
-                if(hourOfDay >= curHours && minute > curMinutes){
+                if(hourOfDay > curHours){
                     tvRepeat.setText("Сегодня");
+                    repeatDays = "today";
+                } else if(hourOfDay == curHours && minute > curMinutes){
+                    tvRepeat.setText("Сегодня");
+                    repeatDays = "today";
                 } else {
                     tvRepeat.setText("Завтра");
+                    repeatDays = "tomorrow";
                 }
             } else {
                 tvRepeat.setText("");
             }
+        }
+
+        private String setRepeatDays() {
+            StringBuilder sb = new StringBuilder();
+            if(togMonday.isChecked())
+                sb.append("mon+");
+            if(togTuesday.isChecked())
+                sb.append("tue+");
+            if(togWednesday.isChecked())
+                sb.append("wed+");
+            if(togThursday.isChecked())
+                sb.append("thu+");
+            if(togFriday.isChecked())
+                sb.append("fri+");
+            if(togSaturday.isChecked())
+                sb.append("sat+");
+            if(togSunday.isChecked())
+                sb.append("sun");
+
+            return sb.toString();
         }
     };
 
@@ -179,7 +212,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
                 timePickerDialog.show(getFragmentManager(), TIMEPICKER_TAG);
                 break;
             case R.id.relSignal:
-                SignalDialog signalDialog = SignalDialog.newInstance(this, signal);
+                signalDialog = SignalDialog.newInstance(this, signal);
                 signalDialog.show(getFragmentManager(), SIGNALSET_TAG);
                 break;
             case R.id.relSelect:
@@ -194,10 +227,19 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
                 alarm.setOn(true);
                 alarm.setTitle(tvLabel.getText().toString());
                 alarm.setWakeHour(hourOfDay);
-                alarm.setWakeHour(minute);
+                alarm.setWakeMinute(minute);
                 alarm.setVibration(switchVibrate.isChecked());
                 alarm.setIncreaseVolume(switchIncreaseVolume.isChecked());
                 alarm.setVolume(seekBar.getProgress());
+
+                String typeSignal = tvSignal.getText().toString();
+                alarm.setTypeSignal(typeSignal);
+                alarm.setTrack(ringtoneUri);
+
+                alarm.setRepeat(repeatDays);
+
+                dbHelper.addAlarm(alarm);
+                getActivity().getFragmentManager().popBackStack();
                 break;
         }
     }
@@ -207,10 +249,10 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         if (resultCode == Activity.RESULT_OK) {
             Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             if (uri != null) {
-                Log.d(MainActivity.TAG, uri.toString());
                 Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), uri);
                 String title = ringtone.getTitle(getActivity());
                 tvSelect.setText(title);
+                ringtoneUri = uri.toString();
             }
         }
     }
@@ -225,11 +267,15 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         int curMinutes = c.get(Calendar.MINUTE);
         String strRepeat = tvRepeat.getText().toString();
         if(hourOfDay >= curHours && minute > curMinutes){
-            if(!strRepeat.equals("Дни недели"))
+            if(!strRepeat.equals("Дни недели")) {
                 tvRepeat.setText("Сегодня");
+                repeatDays = "today";
+            }
         } else {
-            if(!strRepeat.equals("Дни недели"))
+            if(!strRepeat.equals("Дни недели")) {
                 tvRepeat.setText("Завтра");
+                repeatDays = "tomorrow";
+            }
         }
 
         String strMinute, strHour;
@@ -278,7 +324,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         tvSignal.setText(signal.toString());
         if(signal == SignalDialog.Signals.Standart){
             relSelect.setVisibility(RelativeLayout.GONE);
-        } else {
+            } else {
             relSelect.setVisibility(RelativeLayout.VISIBLE);
         }
     }

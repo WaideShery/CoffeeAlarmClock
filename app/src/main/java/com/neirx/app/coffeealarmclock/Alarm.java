@@ -127,7 +127,4 @@ public class Alarm {
         this.startVolume = startVolume;
     }
 
-    public static enum Signal {
-        music,
-    }
 }

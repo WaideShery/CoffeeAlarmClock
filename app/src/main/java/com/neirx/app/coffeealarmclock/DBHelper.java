@@ -18,7 +18,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String KEY_ON_OFF = "on_ofF";
     private final String KEY_ID = "_id";
     private final String KEY_TITLE = "name";
-    private final String KEY_TIME = "time";
+    private final String KEY_HOUR = "hour";
+    private final String KEY_MINUTE = "minute";
     private final String KEY_REPEAT = "repeat";
     private final String KEY_DATE = "date";
     private final String KEY_TYPE_SIGNAL = "type_signal";
@@ -39,13 +40,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_ID + " INTEGER PRIMARY KEY," +
                 KEY_TITLE + " TEXT," +
                 KEY_ON_OFF + " TEXT," + //boolean
-                KEY_TIME + " TEXT," + //HH:MM
-                KEY_REPEAT + " TEXT," + //дни недели
+                KEY_HOUR + " INTEGER," + //часы
+                KEY_MINUTE + " INTEGER," + //минуты
+                KEY_REPEAT + " TEXT," + //дни недели или  "сегодня", или "завтра"
                 KEY_DATE + " TEXT," + //YYYY-MM-DD
                 KEY_TYPE_SIGNAL + " TEXT," +
-                KEY_TRACK + " TEXT," +
+                KEY_TRACK + " TEXT," + //uri.toString
                 KEY_VIBRATION + " TEXT," + //boolean
-                KEY_VOLUME + " INTEGER," +
+                KEY_VOLUME + " INTEGER," + //громкость в процентах
                 KEY_INCREASE_VOLUME + " TEXT," + //boolean
                 KEY_START_VOLUME + " INTEGER" + ")";
         db.execSQL(CREATE_ALARMS_TABLE);
@@ -63,15 +65,15 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ON_OFF, alarm.isOn());
         values.put(KEY_TITLE, alarm.getTitle());
-        values.put(KEY_TIME, alarm.getWakeTime());
-        values.put(KEY_REPEAT, alarm.getRepeat());
-        values.put(KEY_DATE, alarm.getDate());
+        values.put(KEY_HOUR, alarm.getWakeHour());
+        values.put(KEY_MINUTE, alarm.getWakeMinute());
+        values.put(KEY_VIBRATION, alarm.isVibration());
+        values.put(KEY_INCREASE_VOLUME, alarm.isIncreaseVolume());
+        values.put(KEY_VOLUME, alarm.getVolume());
         values.put(KEY_TYPE_SIGNAL, alarm.getTypeSignal());
         values.put(KEY_TRACK, alarm.getTrack());
-        values.put(KEY_VIBRATION, alarm.isVibration());
-        values.put(KEY_VOLUME, alarm.getVolume());
-        values.put(KEY_INCREASE_VOLUME, alarm.isIncreaseVolume());
-        values.put(KEY_START_VOLUME, alarm.getStartVolume());
+        values.put(KEY_START_VOLUME, 0);
+        values.put(KEY_REPEAT, alarm.getRepeat());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -88,17 +90,18 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 Alarm alarm = new Alarm();
                 alarm.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_ID))));
-                alarm.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
                 alarm.setOn(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_ON_OFF))));
-                alarm.setWakeTime(cursor.getString(cursor.getColumnIndex(KEY_TIME)));
-                alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
-                alarm.setDate(cursor.getString(cursor.getColumnIndex(KEY_DATE)));
+                alarm.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+                alarm.setWakeHour(cursor.getInt(cursor.getColumnIndex(KEY_HOUR)));
+                alarm.setWakeMinute(cursor.getInt(cursor.getColumnIndex(KEY_MINUTE)));
+                alarm.setVibration(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_VIBRATION))));
+                alarm.setIncreaseVolume(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_INCREASE_VOLUME))));
+                alarm.setVolume(cursor.getInt(cursor.getColumnIndex(KEY_VOLUME)));
                 alarm.setTypeSignal(cursor.getString(cursor.getColumnIndex(KEY_TYPE_SIGNAL)));
                 alarm.setTrack(cursor.getString(cursor.getColumnIndex(KEY_TRACK)));
-                alarm.setVibration(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_VIBRATION))));
-                alarm.setVolume(cursor.getString(cursor.getColumnIndex(KEY_VOLUME)));
-                alarm.setIncreaseVolume(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_INCREASE_VOLUME))));
                 alarm.setStartVolume(cursor.getString(cursor.getColumnIndex(KEY_START_VOLUME)));
+                alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
+
                 alarmtList.add(alarm);
             } while (cursor.moveToNext());
         }
