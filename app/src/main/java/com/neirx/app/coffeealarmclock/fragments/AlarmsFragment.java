@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.neirx.app.coffeealarmclock.Alarm;
 import com.neirx.app.coffeealarmclock.AlarmAdapter;
@@ -35,6 +33,7 @@ public class AlarmsFragment extends Fragment{
     }
 
     public AlarmsFragment() {}
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,5 +49,9 @@ public class AlarmsFragment extends Fragment{
 
 
         return rootView;
+    }
+
+    public void customMethod(){
+
     }
 }

@@ -1,6 +1,8 @@
 package com.neirx.app.coffeealarmclock.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -10,13 +12,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.PopupMenu;
 
 import com.neirx.app.coffeealarmclock.R;
 
-public class TopFragment extends Fragment {
-
+public class TopFragment extends Fragment implements View.OnClickListener {
+    FrameLayout menuFrame;
+    FragmentManager fragmentManager;
 
     public static TopFragment newInstance() {
         TopFragment fragment = new TopFragment();
@@ -49,8 +55,48 @@ public class TopFragment extends Fragment {
         viewTop.setBackground(new BitmapDrawable(bitmapTop));
 
 
+        fragmentManager = getChildFragmentManager();
+
+        menuFrame = (FrameLayout) rootView.findViewById(R.id.frameMenu);
+        menuFrame.setOnClickListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.frameMenu:
+                showOverflowMenu(v);
+                break;
+        }
+    }
+
+    private void showOverflowMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+        popupMenu.inflate(R.menu.menu_main);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_settings:
+                        Fragment prefFragment = PreferFragment.newInstance();
+                        Fragment prefTopFragment = PrefTopFragment.newInstance();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Fragment replaceFragment = ReplaceFragment.newInstance();
+                        fragmentTransaction.remove(replaceFragment);
+                        //fragmentTransaction.replace(R.id.container, prefFragment);
+                        //fragmentTransaction.replace(R.id.containerTop, prefTopFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+        popupMenu.show();
     }
 
 

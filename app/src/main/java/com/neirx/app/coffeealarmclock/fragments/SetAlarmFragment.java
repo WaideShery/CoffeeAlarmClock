@@ -4,6 +4,7 @@ package com.neirx.app.coffeealarmclock.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -239,16 +240,14 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
 
                 dbHelper.addAlarm(alarm);
 
-                FragmentManager manager = getActivity().getFragmentManager();
-
-                if (manager != null) {
-                    AlarmsFragment currFrag = (AlarmsFragment) manager.findFragmentById(R.layout.fragment_alarms);
-                    if (currFrag != null) {
-                        Log.d(MainActivity.TAG, "Fragment");
-                        currFrag.onFragmentResume();
-                    }
-                    manager.popBackStack();
-                }
+                FragmentManager fragmentManager = getFragmentManager();
+                Fragment replaceFragment = ReplaceFragment.newInstance();
+                Fragment topFragment = TopFragment.newInstance();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, replaceFragment);
+                fragmentTransaction.replace(R.id.containerTop, topFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
                 break;
         }

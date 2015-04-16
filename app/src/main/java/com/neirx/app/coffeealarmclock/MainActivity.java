@@ -17,17 +17,17 @@ import android.widget.Toast;
 import com.neirx.app.coffeealarmclock.fragments.AlarmsFragment;
 import com.neirx.app.coffeealarmclock.fragments.PrefTopFragment;
 import com.neirx.app.coffeealarmclock.fragments.PreferFragment;
+import com.neirx.app.coffeealarmclock.fragments.ReplaceFragment;
 import com.neirx.app.coffeealarmclock.fragments.SetAlarmFragment;
+import com.neirx.app.coffeealarmclock.fragments.TopFragment;
 
 
-public class MainActivity extends Activity implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
     public static final String TAG = "ThisApp";
 
-    ImageView iconAlarm, iconGraphic, iconAddAlarm;
-    FrameLayout menuFrame, addAlarmFrame;
-    ViewPager pager;
     FragmentManager fragmentManager;
     Fragment replaceFragment, topFragment, bottomFragment;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,78 +37,28 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
 
 
         fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-        topFragment = fragmentManager.findFragmentById(R.id.fragmentTop);
-        replaceFragment = fragmentManager.findFragmentById(R.id.fragmentReplace);
-        bottomFragment = replaceFragment.getChildFragmentManager().findFragmentById(R.id.fragmentBottom);
+        topFragment = TopFragment.newInstance();
+        //fragmentTransaction.add(R.id.containerTop, topFragment);
 
+        replaceFragment = ReplaceFragment.newInstance();
+        fragmentTransaction.add(R.id.container, replaceFragment);
 
-        pager = (ViewPager) replaceFragment.getView().findViewById(R.id.pager);
-        iconAlarm = (ImageView) topFragment.getView().findViewById(R.id.iconAlarm);
-        iconGraphic = (ImageView) topFragment.getView().findViewById(R.id.iconGraphic);
-        iconAddAlarm = (ImageView) bottomFragment.getView().findViewById(R.id.iconAddAlarm);
-        menuFrame = (FrameLayout) topFragment.getView().findViewById(R.id.frameMenu);
-        addAlarmFrame = (FrameLayout) bottomFragment.getView().findViewById(R.id.frameAddAlarm);
-
-        pager.setOnPageChangeListener(this);
-        menuFrame.setOnClickListener(this);
+        fragmentTransaction.commit();
+        FrameLayout addAlarmFrame = (FrameLayout) (replaceFragment.getChildFragmentManager()
+                .findFragmentById(R.id.fragmentBottom)).getView().findViewById(R.id.frameAddAlarm);
         addAlarmFrame.setOnClickListener(this);
 
 
-        getFragmentManager().addOnBackStackChangedListener(getListener());
+        /*
+        iconAddAlarm = (ImageView) bottomFragment.getView().findViewById(R.id.iconAddAlarm);
 
-    }
+        addAlarmFrame = (FrameLayout) bottomFragment.findViewById(R.id.frameAddAlarm);
 
-    private FragmentManager.OnBackStackChangedListener getListener()
-    {
-        FragmentManager.OnBackStackChangedListener result = new FragmentManager.OnBackStackChangedListener()
-        {
-            public void onBackStackChanged()
-            {
-                FragmentManager manager = getFragmentManager();
+        addAlarmFrame.setOnClickListener(this);
+        */
 
-                if (manager != null) {
-                    AlarmsFragment currFrag = (AlarmsFragment) manager.findFragmentById(R.id.fragment_alarms);
-                    if (currFrag != null) {
-                        Log.d(MainActivity.TAG, "Fragment");
-                        currFrag.onFragmentResume();
-                    }
-                }
-            }
-        };
-
-        return result;
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        float scale = this.getResources().getDisplayMetrics().density;
-        if (position == 0) {
-            iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
-            iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
-            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
-
-            iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
-            iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
-            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
-        } else if (position == 1) {
-            iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
-            iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
-            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
-
-            iconAlarm.getLayoutParams().height = (int) (35 * scale + 0.5f);
-            iconAlarm.getLayoutParams().width = (int) (35 * scale + 0.5f);
-            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
     }
 
 
@@ -119,14 +69,8 @@ public class MainActivity extends Activity implements ViewPager.OnPageChangeList
                 showOverflowMenu(v);
                 break;
             case R.id.frameAddAlarm:
-                Fragment setAlarmFragment = SetAlarmFragment.newInstance();
-                Fragment prefTopFragment = PrefTopFragment.newInstance();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.hide(replaceFragment);
-                fragmentTransaction.add(R.id.container, setAlarmFragment);
-                fragmentTransaction.hide(topFragment);
-                fragmentTransaction.add(R.id.containerTop, prefTopFragment);
-                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.remove(replaceFragment);
+                //fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 break;
 
