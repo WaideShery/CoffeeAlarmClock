@@ -14,7 +14,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
+import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
 public class BottomFragment extends Fragment {
@@ -52,6 +54,17 @@ public class BottomFragment extends Fragment {
         Bitmap bMapRotate = Bitmap.createBitmap(bitmapTop, 0, 0,
                 bitmapTop.getWidth(), bitmapTop.getHeight(), mat, true);
         viewBottom.setBackground(new BitmapDrawable(bMapRotate));
+
+        FrameLayout addAlarmFrame = (FrameLayout) rootView.findViewById(R.id.frameAddAlarm);
+        addAlarmFrame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null) {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.replaceSetAlarmFragment();
+                }
+            }
+        });
 
         return rootView;
     }

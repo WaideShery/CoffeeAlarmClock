@@ -1,5 +1,6 @@
 package com.neirx.app.coffeealarmclock.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,21 +12,30 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
 public class TopFragment extends Fragment implements View.OnClickListener {
     FrameLayout menuFrame;
     FragmentManager fragmentManager;
+    static TopFragment fragment;
+    float scale;
+    ImageView iconAlarm, iconGraphic;
+    int position;
 
     public static TopFragment newInstance() {
-        TopFragment fragment = new TopFragment();
+        if(fragment == null) {
+            fragment = new TopFragment();
+        }
         return fragment;
     }
 
@@ -54,11 +64,17 @@ public class TopFragment extends Fragment implements View.OnClickListener {
         bdTop.draw(canvasTop);
         viewTop.setBackground(new BitmapDrawable(bitmapTop));
 
+        iconAlarm = (ImageView) rootView.findViewById(R.id.iconAlarm);
+        iconGraphic = (ImageView) rootView.findViewById(R.id.iconGraphic);
+        scale = this.getResources().getDisplayMetrics().density;
+
 
         fragmentManager = getChildFragmentManager();
 
         menuFrame = (FrameLayout) rootView.findViewById(R.id.frameMenu);
         menuFrame.setOnClickListener(this);
+
+        position = 0;
 
         return rootView;
     }
@@ -72,6 +88,32 @@ public class TopFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void setIconAlarmChanged(){
+
+        iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
+        iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
+        iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
+
+        iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
+        iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
+        iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
+    }
+
+    public void setIconGraphicChanged(){
+            iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
+            iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
+            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
+
+            iconAlarm.getLayoutParams().height = (int) (35 * scale + 0.5f);
+            iconAlarm.getLayoutParams().width = (int) (35 * scale + 0.5f);
+            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
+    }
+
+    public void setPosition(int position){
+        this.position = position;
+    }
+
+
     private void showOverflowMenu(View v) {
         PopupMenu popupMenu = new PopupMenu(getActivity(), v);
         popupMenu.inflate(R.menu.menu_main);
@@ -80,15 +122,10 @@ public class TopFragment extends Fragment implements View.OnClickListener {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_settings:
-                        Fragment prefFragment = PreferFragment.newInstance();
-                        Fragment prefTopFragment = PrefTopFragment.newInstance();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        Fragment replaceFragment = ReplaceFragment.newInstance();
-                        fragmentTransaction.remove(replaceFragment);
-                        //fragmentTransaction.replace(R.id.container, prefFragment);
-                        //fragmentTransaction.replace(R.id.containerTop, prefTopFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        if (getActivity() != null) {
+                            MainActivity activity = (MainActivity) getActivity();
+                            activity.replacePreferFragment();
+                        }
                         return true;
                     default:
                         return false;

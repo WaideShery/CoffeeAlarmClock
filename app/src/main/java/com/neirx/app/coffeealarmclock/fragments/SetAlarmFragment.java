@@ -220,7 +220,10 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
                 startActivityForResult(tmpIntent, 0);
                 break;
             case R.id.btnCancel:
-                getActivity().getFragmentManager().popBackStack();
+                if (getActivity() != null) {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.replaceAlarmsFragment();
+                }
                 break;
             case R.id.btnSave:
                 Alarm alarm = new Alarm();
@@ -239,16 +242,6 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
                 alarm.setRepeat(repeatDays);
 
                 dbHelper.addAlarm(alarm);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                Fragment replaceFragment = ReplaceFragment.newInstance();
-                Fragment topFragment = TopFragment.newInstance();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, replaceFragment);
-                fragmentTransaction.replace(R.id.containerTop, topFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-
                 break;
         }
     }

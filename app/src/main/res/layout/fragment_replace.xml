@@ -4,21 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:name="com.neirx.app.coffeealarmclock.fragments.BottomFragment"
-        android:id="@+id/fragmentBottom"
+        android:id="@+id/fragBottom"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        tools:layout="@layout/fragment_bottom" />
+        android:layout_centerHorizontal="true" />
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/fragmentBottom"
+        android:layout_above="@id/fragBottom"
         tools:context="com.neirx.app.coffeealarmclock.MainActivity" />
 
 

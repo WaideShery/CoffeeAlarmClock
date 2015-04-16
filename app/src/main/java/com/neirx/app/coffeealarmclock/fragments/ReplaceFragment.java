@@ -20,16 +20,15 @@ import com.neirx.app.coffeealarmclock.AlarmAdapter;
 import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
-public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeListener, View.OnClickListener {
+public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     FragmentManager fragmentManager;
-    Fragment topFragment, bottomFragment;
-    ImageView iconAlarm, iconGraphic, iconAddAlarm;
-    FrameLayout addAlarmFrame;
+    Fragment bottomFragment;
 
     public static ReplaceFragment newInstance() {
+        Log.d(MainActivity.TAG, "newInstance");
         ReplaceFragment fragment = new ReplaceFragment();
         return fragment;
     }
@@ -41,16 +40,21 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(MainActivity.TAG, "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_replace, container, false);
 
-        fragmentManager = getFragmentManager();
-        topFragment = fragmentManager.findFragmentById(R.id.fragmentTop);
-        iconAlarm = (ImageView) topFragment.getView().findViewById(R.id.iconAlarm);
-        iconGraphic = (ImageView) topFragment.getView().findViewById(R.id.iconGraphic);
+        fragmentManager = getActivity().getFragmentManager();
+        bottomFragment = BottomFragment.newInstance();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragBottom, bottomFragment);
+        fragmentTransaction.commit();
+
+
 
         // Создание адаптера, который будет возвращать фрагмент для каждоц из
         // основных секций/разделов активити.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         // Настраивает ViewPager адаптером секций/разделов.
 
@@ -59,65 +63,33 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
 
         mViewPager.setOnPageChangeListener(this);
 
-        bottomFragment = getChildFragmentManager().findFragmentById(R.id.fragmentBottom);
-
-        addAlarmFrame = (FrameLayout) bottomFragment.getView().findViewById(R.id.frameAddAlarm);
-
-        addAlarmFrame.setOnClickListener(this);
-
         return rootView;
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        Log.d(MainActivity.TAG, "onPageScrolled");
     }
 
     @Override
     public void onPageSelected(int position) {
-        float scale = this.getResources().getDisplayMetrics().density;
-        if (position == 0) {
-            iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
-            iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
-            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
-
-            iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
-            iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
-            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
-        } else if (position == 1) {
-            iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
-            iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
-            iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
-
-            iconAlarm.getLayoutParams().height = (int) (35 * scale + 0.5f);
-            iconAlarm.getLayoutParams().width = (int) (35 * scale + 0.5f);
-            iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
+        Log.d(MainActivity.TAG, "onPageSelected");
+        if (getActivity() != null) {
+            MainActivity activity = (MainActivity) getActivity();
+            TopFragment topFragment = activity.getTopFragment();
+            if (position == 0) {
+                topFragment.setIconAlarmChanged();
+            } else if (position == 1) {
+                topFragment.setIconGraphicChanged();
+            }
         }
+
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        Log.d(MainActivity.TAG, "onPageScrollStateChanged");
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.frameAddAlarm:
-
-                Fragment setAlarmFragment = SetAlarmFragment.newInstance();
-                Fragment prefTopFragment = PrefTopFragment.newInstance();
-                Fragment replaceFragment = ReplaceFragment.newInstance();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                //fragmentTransaction.replace(R.id.container, setAlarmFragment);
-                //fragmentTransaction.replace(R.id.containerTop, prefTopFragment);
-                fragmentTransaction.remove(replaceFragment);
-                fragmentTransaction.commit();
-                break;
-
-        }
-    }
-
 
     /**
      * Наследуется от {Android.support.v13.app.FragmentPagerAdapter}. Возвращает фрагмент,
@@ -128,10 +100,12 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            Log.d(MainActivity.TAG, "SectionsPagerAdapter");
         }
 
         @Override
         public Fragment getItem(int position) {
+            Log.d(MainActivity.TAG, "getItem");
             // getItem вызывается для получения экземпляра фрагмента для данной страницы.
             if (position == 0) {
                 return AlarmTimeFragment.newInstance();
@@ -147,6 +121,7 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
         }
 
         public int getItemPosition(Object object) {
+            Log.d(MainActivity.TAG, "getItemPosition");
             return POSITION_NONE;
         }
 
