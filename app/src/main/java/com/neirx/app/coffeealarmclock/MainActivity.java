@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         Log.d(MainActivity.TAG, "onRestart");
-        replaceAlarmsFragment();
+        //replaceAlarmsFragment();
     }
 
     @Override

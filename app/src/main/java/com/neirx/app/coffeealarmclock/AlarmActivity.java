@@ -2,18 +2,29 @@ package com.neirx.app.coffeealarmclock;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Random;
 
 
 public class AlarmActivity extends Activity {
     int id = 0;
+    DBHelper dbHelper;
+    Alarm alarm;
+    Ringtone ringtone;
+    TextView tvCaptcha;
+    EditText etControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +36,55 @@ public class AlarmActivity extends Activity {
             id = Integer.parseInt(intent.getAction());
         }
 
+        dbHelper = new DBHelper(AlarmActivity.this);
+        alarm = dbHelper.getAlarm(id);
+
+        Random r = new Random();
+        final int captcha = r.nextInt(9999999 - 1000000) + 1000000;
+        tvCaptcha = (TextView) findViewById(R.id.tvCaptcha);
+        tvCaptcha.setText(""+captcha);
+        etControl = (EditText) findViewById(R.id.etControl);
+
+
+        String track = alarm.getTrack();
+        if (!track.isEmpty()) {
+            Uri uri = Uri.parse(track);
+            if (uri != null) {
+                ringtone = RingtoneManager.getRingtone(this, uri);
+                ringtone.play();
+            }
+        } else {
+            ringtone = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+            ringtone.play();
+        }
+
         Button btnRingOff = (Button) findViewById(R.id.btnRingOff);
         btnRingOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id > 0){
-                    DBHelper dbHelper = new DBHelper(AlarmActivity.this);
-                    Alarm alarm = dbHelper.getAlarm(id);
-                    String repeatDay = alarm.getRepeat();
-                    if(repeatDay.equals("today") || repeatDay.equals("tomorrow")){
-                        alarm.setOn(false);
-                        dbHelper.updateAlarm(alarm, id);
-                    } else {
-                        alarm.setPoint(setAlarmTime(repeatDay, alarm.getWakeHour(), alarm.getWakeMinute()));
-                        dbHelper.updateAlarm(alarm, id);
+                try {
+                    int control = Integer.parseInt(etControl.getText().toString());
+                    if(control == captcha) {
+                        if (id > 0) {
+                            if (ringtone.isPlaying()) {
+                                ringtone.stop();
+                            }
+                            String repeatDay = alarm.getRepeat();
+                            if (repeatDay.equals("today") || repeatDay.equals("tomorrow")) {
+                                alarm.setOn(false);
+                                dbHelper.updateAlarm(alarm, id);
+                            } else {
+                                alarm.setPoint(setAlarmTime(repeatDay, alarm.getWakeHour(), alarm.getWakeMinute()));
+                                dbHelper.updateAlarm(alarm, id);
+                            }
+
+                        }
+                        startService(new Intent(AlarmActivity.this, AlarmService.class));
+                        finish();
                     }
+                } catch (Exception e){
 
                 }
-                startService(new Intent(AlarmActivity.this, AlarmService.class));
-                finish();
             }
         });
     }
@@ -171,5 +212,9 @@ public class AlarmActivity extends Activity {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
         return calendar.getTimeInMillis();
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

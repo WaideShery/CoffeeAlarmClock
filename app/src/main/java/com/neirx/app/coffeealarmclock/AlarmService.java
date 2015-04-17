@@ -29,7 +29,7 @@ public class AlarmService extends Service {
                 if(alarm.isOn()) {
                     Intent alarmIntent = new Intent(this, AlarmActivity.class);
                     alarmIntent.setAction("" + alarm.getId());
-                    alarmIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                    alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                     manager.set(AlarmManager.RTC_WAKEUP, alarm.getPoint(), pi);
                     Log.d(MainActivity.TAG, "curTime = "+System.currentTimeMillis());

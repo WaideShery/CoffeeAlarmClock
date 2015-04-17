@@ -5,27 +5,24 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.GridView;
 
 import com.neirx.app.coffeealarmclock.AlarmAdapter;
-import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
 
 public class AlarmTimeFragment extends Fragment {
     AlarmAdapter adapter;
 
+    public AlarmTimeFragment() {
+    }
+
     public static AlarmTimeFragment newInstance() {
         AlarmTimeFragment fragment = new AlarmTimeFragment();
         return fragment;
     }
-
-    public AlarmTimeFragment() {}
 
     @Nullable
     @Override
