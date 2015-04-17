@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String KEY_VOLUME = "volume";
     private final String KEY_INCREASE_VOLUME = "increase_volume";
     private final String KEY_START_VOLUME = "start_volume";
+    private final String KEY_POINT = "point";
 
 
     public DBHelper(Context context) {
@@ -46,6 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_DATE + " TEXT," + //YYYY-MM-DD
                 KEY_TYPE_SIGNAL + " TEXT," +
                 KEY_TRACK + " TEXT," + //uri.toString
+                KEY_POINT + " INTEGER," + //следующая сработка будильника
                 KEY_VIBRATION + " TEXT," + //boolean
                 KEY_VOLUME + " INTEGER," + //громкость в процентах
                 KEY_INCREASE_VOLUME + " TEXT," + //boolean
@@ -58,24 +61,48 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-
+    public void deleteAlarm(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_ID + "=" + id, null);
+    }
 
     public void addAlarm(Alarm alarm) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ON_OFF, alarm.isOn());
+        values.put(KEY_ON_OFF, Boolean.toString(alarm.isOn()));
         values.put(KEY_TITLE, alarm.getTitle());
         values.put(KEY_HOUR, alarm.getWakeHour());
         values.put(KEY_MINUTE, alarm.getWakeMinute());
-        values.put(KEY_VIBRATION, alarm.isVibration());
-        values.put(KEY_INCREASE_VOLUME, alarm.isIncreaseVolume());
+        values.put(KEY_VIBRATION, Boolean.toString(alarm.isVibration()));
+        values.put(KEY_INCREASE_VOLUME, Boolean.toString(alarm.isIncreaseVolume()));
         values.put(KEY_VOLUME, alarm.getVolume());
         values.put(KEY_TYPE_SIGNAL, alarm.getTypeSignal());
         values.put(KEY_TRACK, alarm.getTrack());
         values.put(KEY_START_VOLUME, 0);
+        values.put(KEY_POINT, alarm.getPoint());
         values.put(KEY_REPEAT, alarm.getRepeat());
 
         db.insert(TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public void updateAlarm(Alarm alarm, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_ON_OFF, Boolean.toString(alarm.isOn()));
+        values.put(KEY_TITLE, alarm.getTitle());
+        values.put(KEY_HOUR, alarm.getWakeHour());
+        values.put(KEY_MINUTE, alarm.getWakeMinute());
+        values.put(KEY_VIBRATION, Boolean.toString(alarm.isVibration()));
+        values.put(KEY_INCREASE_VOLUME, Boolean.toString(alarm.isIncreaseVolume()));
+        values.put(KEY_VOLUME, alarm.getVolume());
+        values.put(KEY_TYPE_SIGNAL, alarm.getTypeSignal());
+        values.put(KEY_TRACK, alarm.getTrack());
+        values.put(KEY_START_VOLUME, 0);
+        values.put(KEY_POINT, alarm.getPoint());
+        values.put(KEY_REPEAT, alarm.getRepeat());
+
+        db.update(TABLE_NAME, values, KEY_ID + "=" + id, null);
         db.close();
     }
 
@@ -100,6 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 alarm.setTypeSignal(cursor.getString(cursor.getColumnIndex(KEY_TYPE_SIGNAL)));
                 alarm.setTrack(cursor.getString(cursor.getColumnIndex(KEY_TRACK)));
                 alarm.setStartVolume(cursor.getString(cursor.getColumnIndex(KEY_START_VOLUME)));
+                alarm.setPoint(cursor.getLong(cursor.getColumnIndex(KEY_POINT)));
                 alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
 
                 alarmtList.add(alarm);
@@ -107,5 +135,30 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return alarmtList;
+    }
+
+    public Alarm getAlarm(int id) {
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " where " + KEY_ID + "='" + id + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Alarm alarm = new Alarm();
+        if (cursor.moveToFirst()){
+            alarm.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_ID))));
+            alarm.setOn(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_ON_OFF))));
+            alarm.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+            alarm.setWakeHour(cursor.getInt(cursor.getColumnIndex(KEY_HOUR)));
+            alarm.setWakeMinute(cursor.getInt(cursor.getColumnIndex(KEY_MINUTE)));
+            alarm.setVibration(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_VIBRATION))));
+            alarm.setIncreaseVolume(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(KEY_INCREASE_VOLUME))));
+            alarm.setVolume(cursor.getInt(cursor.getColumnIndex(KEY_VOLUME)));
+            alarm.setTypeSignal(cursor.getString(cursor.getColumnIndex(KEY_TYPE_SIGNAL)));
+            alarm.setTrack(cursor.getString(cursor.getColumnIndex(KEY_TRACK)));
+            alarm.setStartVolume(cursor.getString(cursor.getColumnIndex(KEY_START_VOLUME)));
+            alarm.setPoint(cursor.getLong(cursor.getColumnIndex(KEY_POINT)));
+            alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
+        }
+        return alarm;
     }
 }

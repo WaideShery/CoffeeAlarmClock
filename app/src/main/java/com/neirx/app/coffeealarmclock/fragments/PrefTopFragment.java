@@ -12,10 +12,13 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.neirx.app.coffeealarmclock.R;
 
 public class PrefTopFragment extends Fragment {
+    LinearLayout prefBack;
+
     public static PrefTopFragment newInstance() {
         PrefTopFragment fragment = new PrefTopFragment();
         return fragment;
@@ -47,6 +50,13 @@ public class PrefTopFragment extends Fragment {
         viewTop.setBackground(new BitmapDrawable(bitmapTop));
 
 
+        prefBack = (LinearLayout) rootView.findViewById(R.id.pref_back);
+        prefBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getFragmentManager().popBackStack();
+            }
+        });
 
         return rootView;
     }

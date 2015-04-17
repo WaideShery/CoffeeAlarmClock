@@ -40,6 +40,10 @@
     <string name="alarm_increase_volume"><u>Наростание громкости</u></string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
+    <string name="delete_settings">Удалить</string>
+    <string name="title_activity_alarm">AlarmActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 
 </resources>

@@ -28,7 +28,6 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
     Fragment bottomFragment;
 
     public static ReplaceFragment newInstance() {
-        Log.d(MainActivity.TAG, "newInstance");
         ReplaceFragment fragment = new ReplaceFragment();
         return fragment;
     }
@@ -40,7 +39,6 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(MainActivity.TAG, "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_replace, container, false);
 
         fragmentManager = getActivity().getFragmentManager();
@@ -68,12 +66,10 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d(MainActivity.TAG, "onPageScrolled");
     }
 
     @Override
     public void onPageSelected(int position) {
-        Log.d(MainActivity.TAG, "onPageSelected");
         if (getActivity() != null) {
             MainActivity activity = (MainActivity) getActivity();
             TopFragment topFragment = activity.getTopFragment();
@@ -88,7 +84,6 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.d(MainActivity.TAG, "onPageScrollStateChanged");
     }
 
     /**
@@ -100,12 +95,10 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.d(MainActivity.TAG, "SectionsPagerAdapter");
         }
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(MainActivity.TAG, "getItem");
             // getItem вызывается для получения экземпляра фрагмента для данной страницы.
             if (position == 0) {
                 return AlarmTimeFragment.newInstance();
@@ -121,7 +114,6 @@ public class ReplaceFragment extends Fragment implements ViewPager.OnPageChangeL
         }
 
         public int getItemPosition(Object object) {
-            Log.d(MainActivity.TAG, "getItemPosition");
             return POSITION_NONE;
         }
 

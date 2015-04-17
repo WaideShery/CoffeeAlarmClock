@@ -17,6 +17,16 @@ public class Alarm {
     private boolean isIncreaseVolume;
     private String startVolume;// -
 
+    public long getPoint() {
+        return point;
+    }
+
+    public void setPoint(long point) {
+        this.point = point;
+    }
+
+    private long point;
+
     public Alarm(){
 
     }

@@ -65,9 +65,16 @@ public class AlarmAdapter extends BaseAdapter {
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         tvTitle.setText(alarm.getTitle());
 
-        isOn = alarm.isOn();
 
         ivOnOff = (ImageView) view.findViewById(R.id.ivOnOff);
+        isOn = alarm.isOn();
+        if(isOn){
+            ivOnOff.setBackgroundResource(R.drawable.alarm_on);
+        } else {
+            ivOnOff.setBackgroundResource(R.drawable.alarm_off);
+        }
+
+
         ivOnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

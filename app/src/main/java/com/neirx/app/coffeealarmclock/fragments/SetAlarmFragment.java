@@ -3,8 +3,6 @@ package com.neirx.app.coffeealarmclock.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.neirx.app.coffeealarmclock.Alarm;
+import com.neirx.app.coffeealarmclock.AlarmService;
 import com.neirx.app.coffeealarmclock.DBHelper;
 import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
@@ -35,9 +34,8 @@ import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import java.util.Calendar;
 
 
-
 public class SetAlarmFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener,
-        LabelDialog.OnLabelSetListener, SignalDialog.OnSignalSetListener{
+        LabelDialog.OnLabelSetListener, SignalDialog.OnSignalSetListener {
     SignalDialog signalDialog;
     SignalDialog.Signals signal;
     TextView tvLabel, tvTime, tvSignal, tvRepeat, tvSelect, tvPercent;
@@ -50,6 +48,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     boolean is24Format;
     int hourOfDay, minute;
     int defaultProgress = 80;
+    int alarmId;
     Button btnSave, btnCancel;
     SeekBar seekBar;
     Switch switchVibrate, switchIncreaseVolume;
@@ -73,7 +72,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         View rootView = inflater.inflate(R.layout.fragment_set_alarm, container, false);
         final Calendar calendar = Calendar.getInstance();
         is24Format = false;
-        if (DateFormat.is24HourFormat(getActivity())){
+        if (DateFormat.is24HourFormat(getActivity())) {
             is24Format = true;
         }
         timePickerDialog = TimePickerDialog.newInstance(
@@ -120,7 +119,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         btnSave.setOnClickListener(this);
         btnCancel = (Button) rootView.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(this);
-        if(tvTime.getText().toString().isEmpty()){
+        if (tvTime.getText().toString().isEmpty()) {
             btnSave.setEnabled(false);
         }
 
@@ -137,6 +136,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -146,60 +146,72 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         switchIncreaseVolume = (Switch) rootView.findViewById(R.id.switchIncreaseVolume);
 
         dbHelper = new DBHelper(getActivity());
+
+
+        alarmId = getArguments().getInt("alarmId");
+        if (alarmId != 0) {
+            setAlarmValues(alarmId);
+        }
         return rootView;
     }
 
     private View.OnClickListener onToggleClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(togMonday.isChecked() || togTuesday.isChecked() || togWednesday.isChecked()
-                    || togThursday.isChecked() || togFriday.isChecked()
-                    || togSaturday.isChecked() || togSunday.isChecked()){
-                tvRepeat.setText("Дни недели");
-                repeatDays = setRepeatDays();
-            } else if(!tvTime.getText().toString().isEmpty()){
-                Calendar c = Calendar.getInstance();
-                int curHours = c.get(Calendar.HOUR_OF_DAY);
-                int curMinutes = c.get(Calendar.MINUTE);
-                if(hourOfDay > curHours){
-                    tvRepeat.setText("Сегодня");
-                    repeatDays = "today";
-                } else if(hourOfDay == curHours && minute > curMinutes){
-                    tvRepeat.setText("Сегодня");
-                    repeatDays = "today";
-                } else {
-                    tvRepeat.setText("Завтра");
-                    repeatDays = "tomorrow";
-                }
-            } else {
-                tvRepeat.setText("");
-            }
+            findRepeatDays();
         }
 
-        private String setRepeatDays() {
-            StringBuilder sb = new StringBuilder();
-            if(togMonday.isChecked())
-                sb.append("mon+");
-            if(togTuesday.isChecked())
-                sb.append("tue+");
-            if(togWednesday.isChecked())
-                sb.append("wed+");
-            if(togThursday.isChecked())
-                sb.append("thu+");
-            if(togFriday.isChecked())
-                sb.append("fri+");
-            if(togSaturday.isChecked())
-                sb.append("sat+");
-            if(togSunday.isChecked())
-                sb.append("sun");
 
-            return sb.toString();
-        }
     };
+
+    private void findRepeatDays() {
+        if (togMonday.isChecked() || togTuesday.isChecked() || togWednesday.isChecked()
+                || togThursday.isChecked() || togFriday.isChecked()
+                || togSaturday.isChecked() || togSunday.isChecked()) {
+            tvRepeat.setText("Дни недели");
+            repeatDays = setRepeatDays();
+        } else if (!tvTime.getText().toString().isEmpty()) {
+            Calendar c = Calendar.getInstance();
+            int curHours = c.get(Calendar.HOUR_OF_DAY);
+            int curMinutes = c.get(Calendar.MINUTE);
+            if (hourOfDay > curHours) {
+                tvRepeat.setText("Сегодня");
+                repeatDays = "today";
+            } else if (hourOfDay == curHours && minute > curMinutes) {
+                tvRepeat.setText("Сегодня");
+                repeatDays = "today";
+            } else {
+                tvRepeat.setText("Завтра");
+                repeatDays = "tomorrow";
+            }
+        } else {
+            tvRepeat.setText("");
+        }
+    }
+
+    private String setRepeatDays() {
+        StringBuilder sb = new StringBuilder();
+        if (togMonday.isChecked())
+            sb.append("mon+");
+        if (togTuesday.isChecked())
+            sb.append("tue+");
+        if (togWednesday.isChecked())
+            sb.append("wed+");
+        if (togThursday.isChecked())
+            sb.append("thu+");
+        if (togFriday.isChecked())
+            sb.append("fri+");
+        if (togSaturday.isChecked())
+            sb.append("sat+");
+        if (togSunday.isChecked())
+            sb.append("sun");
+
+        return sb.toString();
+    }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rlLabel:
                 String curLabel = tvLabel.getText().toString();
                 LabelDialog labelDialog = LabelDialog.newInstance(this, curLabel);
@@ -220,10 +232,7 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
                 startActivityForResult(tmpIntent, 0);
                 break;
             case R.id.btnCancel:
-                if (getActivity() != null) {
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.replaceAlarmsFragment();
-                }
+                getActivity().getFragmentManager().popBackStack();
                 break;
             case R.id.btnSave:
                 Alarm alarm = new Alarm();
@@ -241,7 +250,14 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
 
                 alarm.setRepeat(repeatDays);
 
-                dbHelper.addAlarm(alarm);
+                alarm.setPoint(setAlarmTime(repeatDays, hourOfDay, minute));
+                if (alarmId > 0) {
+                    dbHelper.updateAlarm(alarm, alarmId);
+                } else {
+                    dbHelper.addAlarm(alarm);
+                }
+                getActivity().startService(new Intent(getActivity(), AlarmService.class));
+                getActivity().getFragmentManager().popBackStack();
                 break;
         }
     }
@@ -262,19 +278,25 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        setTimeInTextView(hourOfDay, minute);
+    }
+
+    //Метод установки времени в текстовое поле
+    private void setTimeInTextView(int hourOfDay, int minute) {
         this.hourOfDay = hourOfDay;
         this.minute = minute;
         Calendar c = Calendar.getInstance();
         int curHours = c.get(Calendar.HOUR_OF_DAY);
         int curMinutes = c.get(Calendar.MINUTE);
         String strRepeat = tvRepeat.getText().toString();
-        if(hourOfDay >= curHours && minute > curMinutes){
-            if(!strRepeat.equals("Дни недели")) {
+        if (!strRepeat.equals("Дни недели")) {
+            if (hourOfDay > curHours) {
                 tvRepeat.setText("Сегодня");
                 repeatDays = "today";
-            }
-        } else {
-            if(!strRepeat.equals("Дни недели")) {
+            } else if (hourOfDay == curHours && minute > curMinutes) {
+                tvRepeat.setText("Сегодня");
+                repeatDays = "today";
+            } else {
                 tvRepeat.setText("Завтра");
                 repeatDays = "tomorrow";
             }
@@ -284,36 +306,35 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
         btnSave.setEnabled(true);
 
 
-        if(minute < 10){
-            strMinute = "0"+minute;
+        if (minute < 10) {
+            strMinute = "0" + minute;
         } else {
-            strMinute = ""+minute;
+            strMinute = "" + minute;
         }
 
-        if(is24Format){
-            if(hourOfDay < 10){
-                strHour = "0"+hourOfDay;
+        if (is24Format) {
+            if (hourOfDay < 10) {
+                strHour = "0" + hourOfDay;
             } else {
-                strHour = ""+hourOfDay;
+                strHour = "" + hourOfDay;
             }
-            tvTime.setText(strHour+":"+strMinute);
+            tvTime.setText(strHour + ":" + strMinute);
         } else {
             String meridiem;
-            if(hourOfDay < 12){
+            if (hourOfDay < 12) {
                 meridiem = " am";
             } else {
                 meridiem = " pm";
             }
-            if(hourOfDay > 12){
+            if (hourOfDay > 12) {
                 hourOfDay -= 12;
             }
-            if(hourOfDay == 0){
+            if (hourOfDay == 0) {
                 hourOfDay = 12;
             }
-            tvTime.setText(hourOfDay+":"+strMinute + meridiem);
-           }
+            tvTime.setText(hourOfDay + ":" + strMinute + meridiem);
+        }
     }
-
 
     @Override
     public void onTimeSet(String Label) {
@@ -324,10 +345,205 @@ public class SetAlarmFragment extends Fragment implements View.OnClickListener, 
     public void onSignalSet(SignalDialog.Signals signal) {
         this.signal = signal;
         tvSignal.setText(signal.toString());
-        if(signal == SignalDialog.Signals.Standart){
+        if (signal == SignalDialog.Signals.Standart) {
             relSelect.setVisibility(RelativeLayout.GONE);
-            } else {
+        } else {
             relSelect.setVisibility(RelativeLayout.VISIBLE);
         }
+    }
+
+
+    private void setAlarmValues(int alarmId) {
+        Alarm alarm = dbHelper.getAlarm(alarmId);
+        tvLabel.setText(alarm.getTitle());
+        this.hourOfDay = alarm.getWakeHour();
+        this.minute = alarm.getWakeMinute();
+        setTimeInTextView(hourOfDay, minute);
+        repeatDays = alarm.getRepeat();
+        switch (repeatDays) {
+            case "today":
+                tvRepeat.setText("Сегодня");
+                break;
+            case "tomorrow":
+                tvRepeat.setText("Завтра");
+                break;
+            default:
+                tvRepeat.setText("Дни недели");
+                String[] repeatDaysArray = repeatDays.split("\\+");
+                for (String aRepeatDay : repeatDaysArray) {
+                    if (aRepeatDay.equals("mon"))
+                        togMonday.setChecked(true);
+                    if (aRepeatDay.equals("tue"))
+                        togTuesday.setChecked(true);
+                    if (aRepeatDay.equals("wed"))
+                        togWednesday.setChecked(true);
+                    if (aRepeatDay.equals("thu"))
+                        togThursday.setChecked(true);
+                    if (aRepeatDay.equals("fri"))
+                        togFriday.setChecked(true);
+                    if (aRepeatDay.equals("sat"))
+                        togSaturday.setChecked(true);
+                    if (aRepeatDay.equals("sun"))
+                        togSunday.setChecked(true);
+                }
+                break;
+        }
+        switchVibrate.setChecked(alarm.isVibration());
+        switchIncreaseVolume.setChecked(alarm.isIncreaseVolume());
+        tvPercent.setText("" + alarm.getVolume() + "%");
+        seekBar.setProgress(alarm.getVolume());
+        String typeSignal = alarm.getTypeSignal();
+        tvSignal.setText(typeSignal);
+        if (typeSignal.equals("Стандартный")) {
+            relSelect.setVisibility(RelativeLayout.GONE);
+        } else {
+            relSelect.setVisibility(RelativeLayout.VISIBLE);
+            String track = alarm.getTrack();
+            if (!track.isEmpty()) {
+                Uri uri = Uri.parse(track);
+                if (uri != null) {
+                    Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), uri);
+                    String title = ringtone.getTitle(getActivity());
+                    tvSelect.setText(title);
+                    ringtoneUri = uri.toString();
+                }
+            } else {
+                tvSelect.setText(R.string.alarm_select_signal);
+            }
+        }
+        findRepeatDays();
+
+    }
+
+    private long setAlarmTime(String repeatDay, int hourOfDay, int minute){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+        if(repeatDay.equals("today")){
+
+        } else if(repeatDay.equals("tomorrow")){
+            dayOfYear++;
+        } else {
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+            switch (day) {
+                case Calendar.SUNDAY:
+                    if (repeatDay.contains("mon"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.MONDAY:
+                    if (repeatDay.contains("tue"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.TUESDAY:
+                    if (repeatDay.contains("wed"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.WEDNESDAY:
+                    if (repeatDay.contains("thu"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.THURSDAY:
+                    if (repeatDay.contains("fri"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.FRIDAY:
+                    if (repeatDay.contains("sat"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("sun"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 7;
+                    break;
+                case Calendar.SATURDAY:
+                    if (repeatDay.contains("sun"))
+                        dayOfYear += 1;
+                    else if (repeatDay.contains("mon"))
+                        dayOfYear += 2;
+                    else if (repeatDay.contains("tue"))
+                        dayOfYear += 3;
+                    else if (repeatDay.contains("wed"))
+                        dayOfYear += 4;
+                    else if (repeatDay.contains("thu"))
+                        dayOfYear += 5;
+                    else if (repeatDay.contains("fri"))
+                        dayOfYear += 6;
+                    else if (repeatDay.contains("sat"))
+                        dayOfYear += 7;
+                    break;
+            }
+        }
+        calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTimeInMillis();
     }
 }

@@ -20,4 +20,12 @@ public class PreferFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        view.setBackgroundColor(getResources().getColor(R.color.dark_dialog_background));
+
+        return view;
+    }
+
 }

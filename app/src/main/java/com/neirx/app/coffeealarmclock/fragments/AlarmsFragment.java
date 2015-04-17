@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.neirx.app.coffeealarmclock.Alarm;
@@ -15,7 +16,6 @@ import com.neirx.app.coffeealarmclock.DBHelper;
 import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmsFragment extends Fragment{
@@ -28,9 +28,6 @@ public class AlarmsFragment extends Fragment{
         return fragment;
     }
 
-    public void onFragmentResume() {
-        Log.d(MainActivity.TAG, "Fragment1 onFragmentResume");
-    }
 
     public AlarmsFragment() {}
 
@@ -42,10 +39,21 @@ public class AlarmsFragment extends Fragment{
 
         alarms = dbHelper.getAllAlarms();
 
+
         alarmAdapter = new AlarmAdapter(getActivity(), alarms);
 
         GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
         gridView.setAdapter(alarmAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Alarm alarm = (Alarm) alarmAdapter.getItem(position);
+                if (getActivity() != null) {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.replaceSetAlarmFragment(alarm.getId());
+                }
+            }
+        });
 
 
         return rootView;

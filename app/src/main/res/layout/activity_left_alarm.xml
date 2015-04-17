@@ -9,8 +9,6 @@
     <ImageView
         android:id="@+id/ivOnOff"
         android:layout_alignParentRight="true"
-        android:src="@drawable/alarm_on"
-        android:background="@drawable/alarm_on"
         android:layout_width="37dp"
         android:layout_height="33dp"
         android:layout_centerVertical="true"
