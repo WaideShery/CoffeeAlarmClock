@@ -9,7 +9,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.neirx.app.coffeealarmclock.DBHelper;
-import com.neirx.app.coffeealarmclock.MainActivity;
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
 import com.neirx.app.coffeealarmclock.R;
 
 public class TopSetAlarmFragment extends Fragment implements View.OnClickListener {

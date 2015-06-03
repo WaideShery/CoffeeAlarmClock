@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -40,10 +39,10 @@ public class AlarmActivity extends Activity {
         alarm = dbHelper.getAlarm(id);
 
         Random r = new Random();
-        final int captcha = r.nextInt(9999999 - 1000000) + 1000000;
-        tvCaptcha = (TextView) findViewById(R.id.tvCaptcha);
-        tvCaptcha.setText(""+captcha);
-        etControl = (EditText) findViewById(R.id.etControl);
+        //final int captcha = r.nextInt(9999999 - 1000000) + 1000000;
+        //tvCaptcha = (TextView) findViewById(R.id.tvCaptcha);
+        //tvCaptcha.setText(""+captcha);
+        //etControl = (EditText) findViewById(R.id.etControl);
 
 
         String track = alarm.getTrack();
@@ -63,8 +62,8 @@ public class AlarmActivity extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-                    int control = Integer.parseInt(etControl.getText().toString());
-                    if(control == captcha) {
+                    //int control = Integer.parseInt(etControl.getText().toString());
+                    //if(control == captcha) {
                         if (id > 0) {
                             if (ringtone.isPlaying()) {
                                 ringtone.stop();
@@ -81,13 +80,14 @@ public class AlarmActivity extends Activity {
                         }
                         startService(new Intent(AlarmActivity.this, AlarmService.class));
                         finish();
-                    }
+                    //}
                 } catch (Exception e){
 
                 }
             }
         });
     }
+
 
     private long setAlarmTime(String repeatDay, int hourOfDay, int minute){
         Calendar calendar = Calendar.getInstance();

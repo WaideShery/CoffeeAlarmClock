@@ -3,16 +3,15 @@ package com.neirx.app.coffeealarmclock.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.neirx.app.coffeealarmclock.Alarm;
 import com.neirx.app.coffeealarmclock.AlarmAdapter;
-import com.neirx.app.coffeealarmclock.DBHelper;
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
 import com.neirx.app.coffeealarmclock.MainActivity;
 import com.neirx.app.coffeealarmclock.R;
 
@@ -28,7 +27,6 @@ public class AlarmsFragment extends Fragment{
         return fragment;
     }
 
-
     public AlarmsFragment() {}
 
     @Nullable
@@ -42,24 +40,20 @@ public class AlarmsFragment extends Fragment{
 
         alarmAdapter = new AlarmAdapter(getActivity(), alarms);
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.gridView);
-        gridView.setAdapter(alarmAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView listView = (ListView) rootView.findViewById(R.id.listView);
+        listView.setAdapter(alarmAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Alarm alarm = (Alarm) alarmAdapter.getItem(position);
-                if (getActivity() != null) {
-                    MainActivity activity = (MainActivity) getActivity();
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) {
                     activity.replaceSetAlarmFragment(alarm.getId());
                 }
             }
         });
 
-
         return rootView;
     }
 
-    public void customMethod(){
-
-    }
 }

@@ -90,12 +90,12 @@ public class TopFragment extends Fragment implements View.OnClickListener {
 
     public void setIconAlarmChanged(){
 
-        iconGraphic.getLayoutParams().height = (int) (35 * scale + 0.5f);
-        iconGraphic.getLayoutParams().width = (int) (35 * scale + 0.5f);
+        iconGraphic.getLayoutParams().height = (int) (40 * scale + 0.5f);
+        iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
         iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_off));
 
-        iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
-        iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
+        //iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
+        //iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
         iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_on));
     }
 
@@ -104,8 +104,8 @@ public class TopFragment extends Fragment implements View.OnClickListener {
             iconGraphic.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconGraphic.setImageDrawable(getResources().getDrawable(R.drawable.menu_graph_on));
 
-            iconAlarm.getLayoutParams().height = (int) (35 * scale + 0.5f);
-            iconAlarm.getLayoutParams().width = (int) (35 * scale + 0.5f);
+            iconAlarm.getLayoutParams().height = (int) (40 * scale + 0.5f);
+            iconAlarm.getLayoutParams().width = (int) (40 * scale + 0.5f);
             iconAlarm.setImageDrawable(getResources().getDrawable(R.drawable.menu_alarm_off));
     }
 

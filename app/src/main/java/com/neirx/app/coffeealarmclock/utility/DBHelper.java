@@ -1,12 +1,11 @@
-package com.neirx.app.coffeealarmclock;
+package com.neirx.app.coffeealarmclock.utility;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
+import com.neirx.app.coffeealarmclock.Alarm;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ public class DBHelper extends SQLiteOpenHelper {
     private final String KEY_HOUR = "hour";
     private final String KEY_MINUTE = "minute";
     private final String KEY_REPEAT = "repeat";
-    private final String KEY_DATE = "date";
     private final String KEY_TYPE_SIGNAL = "type_signal";
     private final String KEY_TRACK = "track";
     private final String KEY_VIBRATION = "vibration";
@@ -41,18 +39,18 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_ALARMS_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
                 KEY_ID + " INTEGER PRIMARY KEY," +
                 KEY_TITLE + " TEXT," +
-                KEY_ON_OFF + " TEXT," + //boolean
-                KEY_HOUR + " INTEGER," + //часы
-                KEY_MINUTE + " INTEGER," + //минуты
-                KEY_REPEAT + " TEXT," + //дни недели или  "сегодня", или "завтра"
-                KEY_DATE + " TEXT," + //YYYY-MM-DD
-                KEY_TYPE_SIGNAL + " TEXT," +
+                KEY_ON_OFF + " TEXT," + //boolean, вкл./выкл. будильника
+                KEY_HOUR + " INTEGER," + //часы будильника (0-23)
+                KEY_MINUTE + " INTEGER," + //минуты будильника (0-59)
+                KEY_REPEAT + " TEXT," + //дни недели(mon, tue и т.д.); разовый(once#15.03.2015 - сегодня или завтра);
+                                        //в определенный день(15.03.2015); периодичное срабатывание(every-4#15.03.2015)
+                KEY_TYPE_SIGNAL + " TEXT," + //тип сыгнала(музыка, стандартный и т.д.)
                 KEY_TRACK + " TEXT," + //uri.toString
                 KEY_POINT + " INTEGER," + //следующая сработка будильника
-                KEY_VIBRATION + " TEXT," + //boolean
+                KEY_VIBRATION + " TEXT," + //boolean, вкл./выкл. вибрации
                 KEY_VOLUME + " INTEGER," + //громкость в процентах
-                KEY_INCREASE_VOLUME + " TEXT," + //boolean
-                KEY_START_VOLUME + " INTEGER" + ")";
+                KEY_INCREASE_VOLUME + " TEXT," + //boolean, вкл./выкл. наростания громкости
+                KEY_START_VOLUME + " INTEGER" + ")"; // начальная громкость
         db.execSQL(CREATE_ALARMS_TABLE);
     }
 
@@ -107,7 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public List<Alarm> getAllAlarms() {
-        List<Alarm> alarmtList = new ArrayList<Alarm>();
+        List<Alarm> alarmList = new ArrayList<>();
         String selectQuery = "SELECT  * FROM " + TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -130,11 +128,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 alarm.setPoint(cursor.getLong(cursor.getColumnIndex(KEY_POINT)));
                 alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
 
-                alarmtList.add(alarm);
+                alarmList.add(alarm);
             } while (cursor.moveToNext());
         }
-
-        return alarmtList;
+        cursor.close();
+        return alarmList;
     }
 
     public Alarm getAlarm(int id) {
@@ -159,6 +157,7 @@ public class DBHelper extends SQLiteOpenHelper {
             alarm.setPoint(cursor.getLong(cursor.getColumnIndex(KEY_POINT)));
             alarm.setRepeat(cursor.getString(cursor.getColumnIndex(KEY_REPEAT)));
         }
+        cursor.close();
         return alarm;
     }
 }

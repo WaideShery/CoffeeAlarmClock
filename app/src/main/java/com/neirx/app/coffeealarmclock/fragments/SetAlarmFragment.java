@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,7 @@ import android.widget.ToggleButton;
 
 import com.neirx.app.coffeealarmclock.Alarm;
 import com.neirx.app.coffeealarmclock.AlarmService;
-import com.neirx.app.coffeealarmclock.DBHelper;
-import com.neirx.app.coffeealarmclock.MainActivity;
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
 import com.neirx.app.coffeealarmclock.R;
 import com.neirx.app.coffeealarmclock.dialogs.LabelDialog;
 import com.neirx.app.coffeealarmclock.dialogs.SignalDialog;

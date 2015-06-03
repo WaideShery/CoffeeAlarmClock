@@ -11,24 +11,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
+
 import java.util.List;
 
 public class AlarmAdapter extends BaseAdapter {
     LayoutInflater lInflater;
     TextView tvTime, tvRepeat, tvTitle;
-    ImageView ivOn, ivOff;
-    FrameLayout layOnOff;
-    boolean isOn;
     Context context;
     List<Alarm> objects;
     boolean is24Format;
-    Alarm alarm;
-    Animation animationFadeIn, animationFadeOut;
 
     public AlarmAdapter(Context context, List<Alarm> alarms){
         this.context = context;
@@ -59,11 +54,17 @@ public class AlarmAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            view = lInflater.inflate(R.layout.activity_left_alarm, parent, false);
+            view = lInflater.inflate(R.layout.view_adapter_alarm, parent, false);
         }
-
-        alarm = getAlarm(position);
-
+        final DBHelper dbHelper = new DBHelper(context);
+        final ImageView ivOn;
+        final Animation animationFadeIn, animationFadeOut;
+        final Alarm alarm = getAlarm(position);
+        final View layOnOff = view.findViewById(R.id.layOnOff);
+        ivOn = (ImageView) view.findViewById(R.id.ivOn);
+        if(!alarm.isOn()){
+            ivOn.setVisibility(View.INVISIBLE);
+        }
 
         tvTime = (TextView) view.findViewById(R.id.tvTime);
         tvTime.setText(alarmTime(alarm.getWakeHour(), alarm.getWakeMinute()));
@@ -72,13 +73,8 @@ public class AlarmAdapter extends BaseAdapter {
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         tvTitle.setText(alarm.getTitle());
 
-        layOnOff = (FrameLayout) view.findViewById(R.id.layOnOff);
-        ivOn = (ImageView) view.findViewById(R.id.ivOn);
-        ivOff = (ImageView) view.findViewById(R.id.ivOff);
-        isOn = alarm.isOn();
-        if(!isOn){
-            ivOn.setVisibility(View.INVISIBLE);
-        }
+
+
 
         animationFadeIn = AnimationUtils.loadAnimation(context, R.anim.fadein);
         animationFadeIn.setAnimationListener(new Animation.AnimationListener() {
@@ -99,33 +95,31 @@ public class AlarmAdapter extends BaseAdapter {
             public void onAnimationRepeat(Animation animation) {}
         });
 
-        ivOn.setOnClickListener(clickImg);
-        ivOff.setOnClickListener(clickImg);
 
+        layOnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (alarm.isOn()) {
+                    alarm.setOn(false);
+                    dbHelper.updateAlarm(alarm, alarm.getId());
+                    ivOn.startAnimation(animationFadeOut);
+                    ivOn.setVisibility(View.INVISIBLE);
+                    Log.d(MainActivity.TAG, "Выключение");
+                } else {
+                    alarm.setOn(true);
+                    dbHelper.updateAlarm(alarm, alarm.getId());
+                    ivOn.startAnimation(animationFadeIn);
+                    Log.d(MainActivity.TAG, "Включение");
+                }
+                context.startService(new Intent(context, AlarmService.class));
+            }
+        });
+
+        view.setPadding(0, 0, 0, 10);
         return view;
     }
 
-    public View.OnClickListener clickImg = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            DBHelper dbHelper = new DBHelper(context);
-            if (isOn) {
-                isOn = false;
-                alarm.setOn(isOn);
-                dbHelper.updateAlarm(alarm, alarm.getId());
-                ivOn.startAnimation(animationFadeOut);
-                ivOn.setVisibility(View.INVISIBLE);
-                Log.d(MainActivity.TAG, "Выключение");
-            } else {
-                isOn = true;
-                alarm.setOn(isOn);
-                dbHelper.updateAlarm(alarm, alarm.getId());
-                ivOn.startAnimation(animationFadeIn);
-                Log.d(MainActivity.TAG, "Включение");
-            }
-            context.startService(new Intent(context, AlarmService.class));
-        }
-    };
+
 
     private Alarm getAlarm(int position) {
         return ((Alarm) getItem(position));

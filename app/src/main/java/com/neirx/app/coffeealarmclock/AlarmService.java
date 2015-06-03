@@ -8,7 +8,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.util.Calendar;
+import com.neirx.app.coffeealarmclock.utility.DBHelper;
+
 import java.util.List;
 
 public class AlarmService extends Service {
